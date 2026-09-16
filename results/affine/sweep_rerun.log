@@ -1,0 +1,70 @@
+  aff11_wu100k_m128_seed1 done
+  aff11_wu100k_m128_seed2 done
+  aff11_wu100k_m128_seed3 done
+  aff11_wu100k_m128_seed4 done
+  aff11_wu100k_m128_seed5 done
+  aff11_wu_m128_seed2 done
+  aff15_chughtai_m128_seed1 done
+  aff15_chughtai_m128_seed2 done
+  aff15_chughtai_m128_seed3 done
+  aff15_chughtai_m128_seed4 done
+  aff15_chughtai_m128_seed5 done
+  aff15_wu_m128_seed1 done
+  aff15_wu_m128_seed2 done
+  aff15_wu_m128_seed3 done
+  aff15_wu_m128_seed4 done
+  aff15_wu_m128_seed5 done
+  aff15_wu_m512_seed1 done
+  aff15_wu_m512_seed2 done
+  aff15_wu_m512_seed3 done
+  aff15_wu_m512_seed4 done
+  aff15_wu_m512_seed5 done
+  aff16_wu_m128_seed1 done
+  aff16_wu_m128_seed2 done
+  aff16_wu_m128_seed3 done
+  aff16_wu_m128_seed4 done
+  aff16_wu_m128_seed5 done
+  aff21_wu_m128_seed1 done
+  aff21_wu_m128_seed2 done
+  aff21_wu_m128_seed3 done
+  aff21_wu_m128_seed4 done
+  aff21_wu_m128_seed5 done
+                      run block  n_cols  frac_explained  null_mean  null_p99  null_P90                                                                                                                                         families
+  aff11_wu100k_m128_seed1    11     240           0.999      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:1.00
+  aff11_wu100k_m128_seed2    11     232           1.000      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:1.00
+  aff11_wu100k_m128_seed3    11     232           0.995      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:0.99
+  aff11_wu100k_m128_seed4    11     238           1.000      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:1.00
+  aff11_wu100k_m128_seed5    11     230           0.994      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:0.99
+      aff11_wu_m128_seed2    11     238           0.994      0.212     0.289     0.000                                                                                                          M_x (point stabilizer) idx=11 triv:0.99
+aff15_chughtai_m128_seed1    5β     166           1.000      0.786     0.942     0.062             other |H|=12 units=4 transl=5Z idx=10 char:0.72 | S_x,5 (stabilizer mod 5) idx=5 char:0.18 | M_x (point stabilizer) idx=15 char:0.11
+aff15_chughtai_m128_seed2     5     122           1.000      0.790     0.937     0.070                                                       S_x,5 (stabilizer mod 5) idx=5 triv:1.00 | other |H|=12 units=4 transl=5Z idx=10 triv:0.00
+aff15_chughtai_m128_seed3     5     148           1.000      0.790     0.937     0.070                                                                                                         S_x,5 (stabilizer mod 5) idx=5 triv:1.00
+aff15_chughtai_m128_seed4     5     156           1.000      0.790     0.937     0.070                                                       S_x,5 (stabilizer mod 5) idx=5 triv:0.99 | other |H|=12 units=4 transl=5Z idx=10 triv:0.01
+aff15_chughtai_m128_seed5     5      58           1.000      0.790     0.937     0.070                                                                                                         S_x,5 (stabilizer mod 5) idx=5 triv:1.00
+aff15_chughtai_m128_seed5    5β     103           1.000      0.786     0.942     0.062      other |H|=12 units=4 transl=5Z idx=10 char:0.96 | other |H|=12 units=4 transl=5Z idx=10 triv:0.03 | M_x (point stabilizer) idx=15 char:0.01
+      aff15_wu_m128_seed1     5     109           1.000      0.790     0.937     0.070             S_x,5 (stabilizer mod 5) idx=5 triv:0.40 | M_x (point stabilizer) idx=15 triv:0.32 | other |H|=12 units=4 transl=5Z idx=10 triv:0.28
+      aff15_wu_m128_seed2     5      69           1.000      0.790     0.937     0.070             other |H|=12 units=4 transl=5Z idx=10 triv:0.70 | S_x,5 (stabilizer mod 5) idx=5 triv:0.18 | M_x (point stabilizer) idx=15 triv:0.12
+      aff15_wu_m128_seed3     5     109           1.000      0.790     0.937     0.070             M_x (point stabilizer) idx=15 triv:0.38 | other |H|=12 units=4 transl=5Z idx=10 triv:0.35 | S_x,5 (stabilizer mod 5) idx=5 triv:0.27
+      aff15_wu_m128_seed4     5     117           1.000      0.790     0.937     0.070             M_x (point stabilizer) idx=15 triv:0.47 | S_x,5 (stabilizer mod 5) idx=5 triv:0.42 | other |H|=12 units=4 transl=5Z idx=10 triv:0.10
+      aff15_wu_m128_seed5    5β     140           1.000      0.786     0.942     0.062             S_x,5 (stabilizer mod 5) idx=5 char:0.54 | other |H|=12 units=4 transl=5Z idx=10 char:0.35 | M_x (point stabilizer) idx=15 char:0.11
+      aff15_wu_m512_seed1     5     213           1.000      0.790     0.937     0.070             S_x,5 (stabilizer mod 5) idx=5 triv:0.37 | M_x (point stabilizer) idx=15 triv:0.35 | other |H|=12 units=4 transl=5Z idx=10 triv:0.28
+      aff15_wu_m512_seed2    5β     354           1.000      0.786     0.942     0.062             M_x (point stabilizer) idx=15 char:0.47 | other |H|=12 units=4 transl=5Z idx=10 char:0.28 | S_x,5 (stabilizer mod 5) idx=5 char:0.26
+      aff15_wu_m512_seed3    5β     366           1.000      0.786     0.942     0.062             other |H|=12 units=4 transl=5Z idx=10 char:0.46 | S_x,5 (stabilizer mod 5) idx=5 char:0.42 | M_x (point stabilizer) idx=15 char:0.13
+      aff15_wu_m512_seed4     5     196           1.000      0.790     0.937     0.070             other |H|=12 units=4 transl=5Z idx=10 triv:0.47 | M_x (point stabilizer) idx=15 triv:0.34 | S_x,5 (stabilizer mod 5) idx=5 triv:0.20
+      aff15_wu_m512_seed5    5β     308           1.000      0.786     0.942     0.062                                                       other |H|=12 units=4 transl=5Z idx=10 char:0.62 | S_x,5 (stabilizer mod 5) idx=5 char:0.38
+      aff16_wu_m128_seed1    16     178           1.000      0.408     0.537     0.000      M_x (point stabilizer) idx=16 triv:0.98 | other |H|=8 units=8 transl=none idx=16 char:0.01 | other |H|=8 units=4 transl=8Z idx=16 char:0.01
+      aff16_wu_m128_seed1     8      30           1.000      1.000     1.000     1.000 other |H|=8 units=4 transl=8Z idx=16 triv:0.74 | other |H|=8 units=2 transl=4Z idx=16 char:0.13 | other |H|=16 units=8 transl=8Z idx=8 triv:0.07
+      aff16_wu_m128_seed2    16     170           0.000      0.408     0.537     0.000                                                                                                                                                 
+      aff16_wu_m128_seed2     8      22           1.000      1.000     1.000     1.000                                                                                                   other |H|=8 units=4 transl=8Z idx=16 triv:1.00
+      aff16_wu_m128_seed3    16     188           0.975      0.408     0.537     0.000      other |H|=8 units=4 transl=8Z idx=16 char:0.43 | other |H|=8 units=8 transl=none idx=16 char:0.24 | M_x (point stabilizer) idx=16 triv:0.16
+      aff16_wu_m128_seed3    8β      28           1.000      1.000     1.000     1.000                                                  other |H|=8 units=4 transl=8Z idx=16 triv:0.96 | other |H|=8 units=2 transl=4Z idx=16 char:0.04
+      aff16_wu_m128_seed4    16     170           0.000      0.408     0.537     0.000                                                                                                                                                 
+      aff16_wu_m128_seed4    8β      28           1.000      1.000     1.000     1.000                                                  other |H|=8 units=4 transl=8Z idx=16 triv:0.72 | other |H|=8 units=4 transl=8Z idx=16 char:0.28
+      aff16_wu_m128_seed5    16     180           1.000      0.408     0.537     0.000             other |H|=8 units=8 transl=none idx=16 char:0.54 | M_x (point stabilizer) idx=16 char:0.20 | M_x (point stabilizer) idx=16 triv:0.14
+      aff16_wu_m128_seed5    8β      30           1.000      1.000     1.000     1.000 other |H|=8 units=2 transl=4Z idx=16 char:0.83 | other |H|=8 units=4 transl=8Z idx=16 triv:0.09 | other |H|=8 units=4 transl=8Z idx=16 char:0.07
+      aff21_wu_m128_seed1     7     145           1.000      0.532     0.680     0.000                                                       S_x,7 (stabilizer mod 7) idx=7 triv:0.69 | other |H|=18 units=6 transl=7Z idx=14 triv:0.31
+      aff21_wu_m128_seed2     7     149           1.000      0.532     0.680     0.000                                                       other |H|=18 units=6 transl=7Z idx=14 triv:0.55 | S_x,7 (stabilizer mod 7) idx=7 triv:0.45
+      aff21_wu_m128_seed3     7     120           0.999      0.532     0.680     0.000                                                       S_x,7 (stabilizer mod 7) idx=7 triv:0.86 | other |H|=18 units=6 transl=7Z idx=14 triv:0.14
+      aff21_wu_m128_seed4    7β     202           1.000      0.531     0.724     0.000                                                       other |H|=18 units=6 transl=7Z idx=14 char:0.98 | S_x,7 (stabilizer mod 7) idx=7 char:0.02
+      aff21_wu_m128_seed5     7      26           1.000      0.532     0.680     0.000                                                       other |H|=18 units=6 transl=7Z idx=14 triv:0.73 | S_x,7 (stabilizer mod 7) idx=7 triv:0.27
+      aff21_wu_m128_seed5    7β     172           1.000      0.531     0.724     0.000                                                                                                  other |H|=18 units=6 transl=7Z idx=14 char:1.00
