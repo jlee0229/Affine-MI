@@ -74,3 +74,12 @@ n=21 d=7 (dim 6, null p99 0.68): confirm seeds 3, 5 — mod-7 point stabilizer 8
 (trivial character); the 7β siblings (seeds 4, 5) — 98–100% plain-with-character on that index-2 subgroup. R-Chughtai n=15 seeds 4–5:
 99–100% on the mod-5 point stabilizer, cleaner than R-Wu's spread across nested classes (dim-4 block; nulls weak). Exploratory n=13
 R-Chughtai: pending (seed 1 at 75k/250k, memorized so far).
+
+### p = 13 width follow-up (exploratory, not pre-registered; `results/affine/p13_m256_*`)
+Aff(Z_13) at width 128 never generalizes: six attempts (R-Wu seeds 1, 2 at 25k epochs and seed 1 at 100k; R-Chughtai seeds 1, 2 over
+250k epochs) with maximum test accuracy 1.0–3.2%. At width 256 (R-Wu, 100k schedule) both seeds reach test accuracy 1.0 by epoch
+1,750 and 1,500 — faster than any Aff(Z_11) run at width 128 (4,000–30,500). Both are 100% plain (F_plain 1.0; single-frequency
+alignment at its null, 0.33), rank one, with point-stabilizer stabilizers, i.e. the same organization as Aff(Z_11).
+Reading (post hoc): a complete plain circuit on the top block of Aff(F_p) needs p^2 neurons in Wu et al.'s construction, and the
+prime groups have no smaller block to decompose through — 121 ≤ 128 (n = 11 groks, at a threshold), 169 > 128 (n = 13 fails),
+169 ≤ 256 (n = 13 groks easily). The composites escape via their factor or lower blocks. Untested beyond these two points.
