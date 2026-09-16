@@ -1,0 +1,663 @@
+<title>Cosets, Irreps, and S₅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--paper:#FBFBF9;--ink:#1C2130;--ink2:#4B5568;--muted:#737D8F;--rule:#DDE1E7;--accent:#2C6E8F;--accent-soft:#E6EFF4;--warn:#A8502E;--warn-soft:#F7EAE3;--code:#F1F3F6;--dot:#2C6E8F;--gen:#E7F1EA;--mem:#F7EAE3;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#13161C;--ink:#E7E9EE;--ink2:#B8BFCC;--muted:#8C95A6;--rule:#2B313C;--accent:#7FB6D2;--accent-soft:#1B2A34;--warn:#DC8A68;--warn-soft:#33231C;--code:#1B1F27;--dot:#7FB6D2;--gen:#1B2A20;--mem:#33231C;}}
+:root[data-theme="dark"]{--paper:#13161C;--ink:#E7E9EE;--ink2:#B8BFCC;--muted:#8C95A6;--rule:#2B313C;--accent:#7FB6D2;--accent-soft:#1B2A34;--warn:#DC8A68;--warn-soft:#33231C;--code:#1B1F27;--dot:#7FB6D2;--gen:#1B2A20;--mem:#33231C;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Serif 4","Iowan Old Style",Georgia,serif;font-size:17px;line-height:1.55;font-variation-settings:"opsz" 14}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+.page{max-width:900px;margin:0 auto;padding:40px 24px 96px}
+.prose{max-width:68ch}
+header.mast{border-bottom:1px solid var(--rule);padding-bottom:22px;margin-bottom:28px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:"Fraunces","Source Serif 4",Georgia,serif;font-variation-settings:"opsz" 96,"wght" 600;font-weight:600;font-size:44px;line-height:1.08;margin:10px 0 12px;letter-spacing:-.01em;text-wrap:balance}
+.dek{font-size:20px;line-height:1.4;color:var(--ink2);max-width:60ch;margin:0 0 14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted)}
+nav.toc{margin:0 0 36px;padding:16px 20px;border:1px solid var(--rule);border-radius:6px;max-width:68ch}
+nav.toc .eyebrow{margin-bottom:8px}
+nav.toc ol{margin:0;padding-left:1.4em;columns:2;column-gap:28px;font-size:15px;line-height:1.5}
+nav.toc li{break-inside:avoid;padding:1px 0}
+h2{font-family:"Fraunces","Source Serif 4",Georgia,serif;font-variation-settings:"opsz" 48,"wght" 600;font-weight:600;font-size:30px;line-height:1.15;margin:56px 0 12px;letter-spacing:-.005em;text-wrap:balance}
+h2 .n{color:var(--accent);font-variation-settings:"opsz" 48,"wght" 500;margin-right:10px}
+h3{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:20px;margin:30px 0 8px;text-wrap:balance}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:1.4em}
+li{margin:3px 0}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.86em}
+code{background:var(--code);padding:1px 5px;border-radius:3px}
+pre{background:var(--code);padding:12px 14px;border-radius:6px;overflow-x:auto;font-size:13.5px;line-height:1.5;margin:0 0 16px}
+pre code{background:none;padding:0;font-size:inherit}
+.math{font-family:"Source Serif 4",Georgia,serif;font-style:italic}
+.def{border-left:3px solid var(--accent);padding:6px 16px;margin:16px 0 18px;background:var(--accent-soft);border-radius:0 4px 4px 0}
+.def p:last-child{margin-bottom:0}
+.warn{border-left:3px solid var(--warn);padding:6px 16px;margin:16px 0 18px;background:var(--warn-soft);border-radius:0 4px 4px 0}
+.warn p:last-child{margin-bottom:0}
+.warn .eyebrow,.def .eyebrow{display:block;margin-bottom:4px}
+.warn .eyebrow{color:var(--warn)}
+.def .eyebrow{color:var(--accent)}
+figure{margin:22px 0 26px}
+figcaption{font-size:14.5px;color:var(--ink2);line-height:1.45;margin-top:8px;max-width:68ch}
+figcaption b{color:var(--ink)}
+.wide{max-width:900px}
+.tblwrap{overflow-x:auto;margin:14px 0 18px}
+table{border-collapse:collapse;font-size:14px;line-height:1.35;width:100%}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--ink2)}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:13px}
+td.mono{font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+table.chars td,table.chars th{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:13px}
+table.chars td:first-child{text-align:left;font-family:"Source Serif 4",serif;font-size:14.5px}
+tr.gen td{background:var(--gen)} tr.mem td{background:var(--mem)}
+details{margin:8px 0 20px} summary{cursor:pointer;color:var(--accent);font-size:15px}
+svg.blocks text,svg.chart text{fill:var(--ink2);font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+svg.blocks .lbl{fill:var(--ink);font-size:12px}
+svg.blocks .blk{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1}
+svg.blocks .sub{fill:var(--accent);opacity:.85}
+svg.blocks .rowlbl{fill:var(--ink2);font-family:"Source Serif 4",serif;font-size:13px}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart .grid{stroke:var(--rule);stroke-width:1} svg.chart .axis{stroke:var(--ink2);stroke-width:1}
+svg.chart .tick{fill:var(--muted);font-size:11px} svg.chart .axlabel{fill:var(--ink2);font-size:12px}
+svg.chart .annot{fill:var(--ink);font-family:"Source Serif 4",serif;font-size:13.5px}
+svg.chart .dot{fill:var(--dot);stroke:var(--paper);stroke-width:2;opacity:.9} svg.chart .dot.ctrl{fill:none;stroke:var(--muted);stroke-width:1.5;opacity:.9} svg.chart .dot:hover,svg.chart .dot:focus{opacity:1;stroke:var(--ink);outline:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+@media(max-width:700px){.two{grid-template-columns:1fr} nav.toc ol{columns:1} h1{font-size:34px}}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;font-size:15px}
+.kv dt{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);padding-top:3px}
+.kv dd{margin:0}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0}
+.small{font-size:14.5px;color:var(--ink2)}
+</style>
+
+<div class="page">
+<header class="mast">
+<div class="eyebrow">Internal research writeup · mechanistic interpretability</div>
+<h1>Cosets, Irreps, and S₅</h1>
+<p class="dek">An orientation for the monomiality project: what the dispute is, what the literature already settled, what we built, what we pre-registered — and what the S₅ probe and the Aff(ℤₙ) sweep found.</p>
+<div class="meta"><span>2026-09-09 · results added 2026-09-16</span><span>status: S₅ probe and affine sweep complete</span><span>code: s5_probe/</span><span>lit review: lit_review.md</span></div>
+</header>
+
+<nav class="toc"><div class="eyebrow">Contents</div><ol>
+<li><a href="#s0">Summary</a></li><li><a href="#s1">The problem</a></li><li><a href="#s2">The representation theory you need</a></li><li><a href="#s3">The hypothesis going in</a></li><li><a href="#s4">Literature review</a></li><li><a href="#s5">Step zero: infrastructure</a></li><li><a href="#s6">Findings before any new experiment</a></li><li><a href="#s7">The plan from here</a></li><li><a href="#s8">The affine family: results</a></li><li><a href="#sA">Appendix: files, reproduction, glossary</a></li>
+</ol></nav>
+
+<div class="prose">
+<h2 id="s0"><span class="n">0</span>Summary</h2>
+<p>Small neural networks trained to multiply elements of the symmetric group S₅ have been reverse-engineered twice with different conclusions: Chughtai et al. (2023) say the hidden neurons compute <i>irreducible representations</i> (irreps) of the group; Stander et al. (2024) say the neurons are <i>constant on cosets of subgroups</i>. Our project's thesis is that these are two coordinate systems on one construction — the <i>induced representation</i> — and that the disagreement should vanish on groups whose irreps are all <i>monomial</i> (induced from one-dimensional characters), such as the affine groups Aff(ℤₙ).</p>
+<p>This week we (a) ran a literature check on that thesis and (b) built and validated the infrastructure to test it on Chughtai's released S₅ models. The literature check found that the trivial-character half of the thesis is already published — Wu, Jaburi, Drori &amp; Gross (ICLR 2025) prove that a neuron is both "irrep-sparse" and "coset-concentrated" exactly when it is the orbit of a subgroup-fixed vector — but that nobody has touched non-trivial characters, monomiality, M-groups, Aff(ℤₙ), or the "action" task. Wu et al. even name the gap we would fill. Two of our specific predictions needed correcting, and are corrected below.</p>
+<p>The infrastructure is done: the 120 group elements are pinned to the exact indexing the models were trained with (verified by 100.00% accuracy on a table we rebuilt from scratch), every representation-theoretic claim we rely on is now checked by a program rather than by hand, and we reproduced Chughtai's own published per-irrep numbers to three decimals. Along the way, two facts fell out without training anything: the 6-dimensional irrep — the one irrep of S₅ with a genuinely "coset-shaped" basis — carries essentially zero hidden-layer energy in all 60 released models that generalize and 10–26% in every model that merely memorized; and Morwani et al.'s margin-maximization theorem predicts the opposite (that 6d <i>is</i> used), so its absence is a property of the ReLU/cross-entropy training regime, not of the task.</p>
+<p>The S₅ probe was then pre-registered and run (P1 passed; P2 failed at its threshold because memorizers are not a null; P3 passed), and the plan in §7 was executed as an Aff(ℤₙ) sweep whose results are in §8. The network builds plain-coset, rank-one circuits on the affine groups too, even where a slack-free Fourier basis exists. What varies by seed is which exact realization it picks.</p>
+
+<h2 id="s1"><span class="n">1</span>The problem</h2>
+<h3>1.1 The task and the network</h3>
+<p>Take a finite group G — here S₅, the 120 permutations of five objects — and train a network to compute the product. The input is a pair of elements (x, y), each given as a one-hot vector of length 120; the output is a probability distribution over the 120 possible products; the training set is a random 40% of the 14,400 pairs. Nothing about the group is told to the network. When it eventually reaches 100% on the held-out 60%, it has discovered some internal encoding of the group's structure, and the interpretability question is: which one?</p>
+<p>The architecture in all three papers is the same one-hidden-layer MLP. Two embedding matrices <span class="math">W<sub>x</sub></span>, <span class="math">W<sub>y</sub></span> (120 × 256) look up the two inputs; the two embeddings are concatenated and multiplied by <span class="math">W</span> (512 × 128); a ReLU is applied; and an unembedding <span class="math">W<sub>U</sub></span> (128 × 120) produces logits. Because <span class="math">W</span> acts on a concatenation, the pre-activation of neuron <i>j</i> splits into two pieces that depend on one input each:</p>
+<div class="def"><span class="eyebrow">The object we study</span>
+<p>pre<sub>j</sub>(x, y) = <span class="math">u<sub>j</sub><sup>x</sup></span>(x) + <span class="math">u<sub>j</sub><sup>y</sup></span>(y), &nbsp; hidden<sub>j</sub> = ReLU(pre<sub>j</sub>),</p>
+<p>where <span class="math">u<sub>j</sub><sup>x</sup></span> = (<span class="math">W<sub>x</sub> W</span>[:256, j]) is a list of 120 numbers — one per group element — i.e. a <b>function on the group</b>. Everything below is about the shape of these functions.</p></div>
+<p>Training runs for 250,000 epochs with AdamW (weight decay 1). The network first memorizes the training set, then, tens of thousands of epochs later, abruptly generalizes — "grokking". Chughtai et al. released the final weights of 50 seeds at this configuration, plus a sweep over narrower hidden layers and four one-layer transformers; those 84 models are our raw material (§5.1).</p>
+
+<h3>1.2 The two published readings</h3>
+<p><b>Chughtai, Chan &amp; Nanda (ICML 2023)</b> proposed the "Group Composition via Representations" (GCR) algorithm: the embeddings map x and y to matrices ρ(x), ρ(y) of some irrep ρ; the network effectively computes the trace tr(ρ(x)ρ(y)ρ(z)<sup>−1</sup>), which is maximized at z = xy. Their evidence is basis-free: the fraction of hidden-layer energy that lies in each irrep's block (§2.2), and the cosine similarity of the logits to the trace formula. They found that on S₅ the network uses the 4-dimensional "standard" irrep most often, the sign irrep always, the two 5-dimensional irreps sometimes, and the 6-dimensional irrep never.</p>
+<p><b>Stander, Yu, Fan &amp; Biderman (ICML 2024)</b> retrained the same setup and looked at the pre-activations <span class="math">u<sub>j</sub><sup>x</sup></span> directly. They found that almost every neuron takes only a handful of distinct values, and that the elements sharing a value form the <i>cosets</i> of some subgroup H ⊂ S₅ — the alternating group A₅, the point-stabilizers S₄, the Frobenius group F₂₀, the dihedral group D₁₀. They describe the mechanism as "coset circuits" and write: "We were not able to find any evidence that the linear layer implements matrix multiplication."</p>
+<p>The two papers measure different things (energy in an irrep block vs. constancy on a partition) and reach conclusions that sound contradictory. The question this project asks is whether they are.</p>
+
+<h2 id="s2"><span class="n">2</span>The representation theory you need</h2>
+<p>Everything in this section is standard; the point is to fix the notation and the five facts the rest of the writeup leans on.</p>
+
+<h3>2.1 Irreps and characters of S₅</h3>
+<p>A <i>representation</i> of G is a homomorphism ρ: G → GL(d) — a way of writing each group element as a d × d matrix so that ρ(xy) = ρ(x)ρ(y). It is <i>irreducible</i> if no proper subspace is preserved by all the ρ(g). S₅ has exactly seven irreps, one for each conjugacy class (equivalently, one for each partition of 5), with dimensions 1, 1, 4, 4, 5, 5, 6. The <i>character</i> χ<sub>ρ</sub>(g) = tr ρ(g) is a function on G that is constant on conjugacy classes and determines ρ up to change of basis. The character table (rows: irreps in Chughtai's naming; columns: classes by cycle type, with class sizes) is:</p>
+</div>
+<div class="tblwrap wide"><table class="chars">
+<thead><tr><th>irrep (partition)</th><th>e<br><span class="small">1</span></th><th>(12)<br><span class="small">10</span></th><th>(12)(34)<br><span class="small">15</span></th><th>(123)<br><span class="small">20</span></th><th>(123)(45)<br><span class="small">20</span></th><th>(1234)<br><span class="small">30</span></th><th>(12345)<br><span class="small">24</span></th></tr></thead>
+<tbody>
+<tr><td>trivial (5)</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>sign (1⁵)</td><td>1</td><td>−1</td><td>1</td><td>1</td><td>−1</td><td>−1</td><td>1</td></tr>
+<tr><td>standard (4,1)</td><td>4</td><td>2</td><td>0</td><td>1</td><td>−1</td><td>0</td><td>−1</td></tr>
+<tr><td>standard′ = standard ⊗ sign (2,1³)</td><td>4</td><td>−2</td><td>0</td><td>1</td><td>1</td><td>0</td><td>−1</td></tr>
+<tr><td>5a (2,2,1)</td><td>5</td><td>−1</td><td>1</td><td>−1</td><td>−1</td><td>1</td><td>0</td></tr>
+<tr><td>5b (3,2)</td><td>5</td><td>1</td><td>1</td><td>−1</td><td>1</td><td>−1</td><td>0</td></tr>
+<tr><td>6d (3,1,1)</td><td>6</td><td>0</td><td>−2</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+</tbody></table></div>
+<div class="prose">
+<p class="small">Chughtai's code calls these <code>trivial, sign, standard, standard_sign, s5_5d_a, s5_5d_b, s5_6d</code>; Wu et al. call them 1d-0, 1d-1, 4d-0, 4d-1, 5d-0, 5d-1, 6d-0. The rows are orthonormal under the class-size-weighted inner product; the self-test in §5.3 checks this.</p>
+
+<h3>2.2 Functions on the group split into blocks</h3>
+<p>A function f: G → ℝ is a vector in ℝ¹²⁰. The matrix entries ρ(g)<sub>ij</sub> of an irrep, viewed as functions of g, span a subspace V<sub>ρ</sub> of dimension d<sub>ρ</sub>², and these subspaces are mutually orthogonal and fill the space: 1 + 1 + 16 + 16 + 25 + 25 + 36 = 120. So every function on G decomposes uniquely into pieces living in the seven blocks — this is Fourier analysis on a non-abelian group, and V<sub>ρ</sub> is called the ρ-<i>isotypic component</i>. The projection onto V<sub>ρ</sub> needs only the character:</p>
+<p style="text-align:center">(P<sub>ρ</sub> f)(g) = (d<sub>ρ</sub>/|G|) Σ<sub>h</sub> χ<sub>ρ</sub>(h) f(h<sup>−1</sup>g).</p>
+<p>Chughtai's "percent of hidden energy in irrep ρ" is exactly ‖P<sub>ρ</sub> f‖² / ‖f‖² for the relevant functions, which is why it is basis-independent — and why it cannot, by itself, distinguish a "coset neuron" from a generic vector in the same block.</p>
+</div>
+<figure class="wide">
+<svg class="blocks" viewBox="0 0 760 214" role="img" aria-label="Isotypic decomposition of functions on S5 and the subspaces occupied by coset-constant functions">
+<text x="14" y="12" class="lbl">ℝ¹²⁰ = functions on S₅, split into isotypic blocks (width ∝ d²)</text>
+<rect x="14" y="20" width="6" height="34" class="blk"/><rect x="22" y="20" width="6" height="34" class="blk"/>
+<rect x="30" y="20" width="96" height="34" class="blk"/><rect x="128" y="20" width="96" height="34" class="blk"/>
+<rect x="226" y="20" width="150" height="34" class="blk"/><rect x="378" y="20" width="150" height="34" class="blk"/><rect x="530" y="20" width="216" height="34" class="blk"/>
+<text x="14" y="66">1, sgn</text><text x="78" y="66" text-anchor="middle">std · 16</text><text x="176" y="66" text-anchor="middle">std′ · 16</text><text x="301" y="66" text-anchor="middle">5a · 25</text><text x="453" y="66" text-anchor="middle">5b · 25</text><text x="638" y="66" text-anchor="middle">6d · 36</text>
+<text x="14" y="90" class="rowlbl">S₄-coset-constant functions (5 dims): trivial ⊕ 4 of std</text>
+<rect x="14" y="95" width="6" height="10" class="sub"/><rect x="30" y="95" width="24" height="10" class="sub"/>
+<text x="14" y="122" class="rowlbl">F₂₀-coset-constant functions (6 dims): trivial ⊕ 5 of 5a — zero weight in 6d</text>
+<rect x="14" y="127" width="6" height="10" class="sub"/><rect x="226" y="127" width="30" height="10" class="sub"/>
+<text x="14" y="154" class="rowlbl">λ₁-twisted F₂₀ functions (6 dims): entirely inside 6d</text>
+<rect x="530" y="159" width="36" height="10" class="sub"/>
+<text x="14" y="186" class="rowlbl">C₅-coset-constant functions (24 dims): trivial ⊕ sgn ⊕ 5 of 5a ⊕ 5 of 5b ⊕ 12 of 6d — no std at all</text>
+<rect x="14" y="191" width="6" height="10" class="sub"/><rect x="22" y="191" width="6" height="10" class="sub"/><rect x="226" y="191" width="30" height="10" class="sub"/><rect x="378" y="191" width="30" height="10" class="sub"/><rect x="530" y="191" width="72" height="10" class="sub"/>
+</svg>
+<figcaption><b>Figure 1.</b> Where things live. The top bar is ℝ¹²⁰ split into the seven isotypic blocks. Each lower row is a subspace of functions with a particular coset structure, drawn inside the blocks it occupies (dimensions from the induced-character decompositions in §5.4, all machine-checked). Reading: a neuron that is constant on the five cosets of an S₄ can only carry the trivial and standard irreps; one constant on the six cosets of F₂₀ can only carry trivial and 5a — never 6d; the only six-dimensional coset-shaped subspace inside 6d is the twisted one.</figcaption></figure>
+<div class="prose">
+
+<h3>2.3 Subgroups, cosets, coset-constant functions</h3>
+<p>For a subgroup H ⊂ G, the left cosets gH partition G into |G|/|H| blocks of size |H| (right cosets Hg give a different partition unless H is normal). A function is <i>H-coset-constant</i> if it takes one value per block. Which irreps can such a function contain? The answer is a classical one: the coset-constant functions form the <i>permutation representation</i> of G on G/H, and its irreducible constituents are given by the induced representation Ind<sub>H</sub><sup>G</sup>(1) of the trivial character. For example Ind<sub>S₄</sub>(1) = trivial ⊕ standard, so an S₄-coset-constant function has energy only in those two blocks (Figure 1, row 1). Note the slack: the constituent we care about (standard, 4-dim) comes packaged with a trivial component we do not (the 5 coset values have 4 degrees of freedom once the mean is removed). §5.4 tabulates this for all 19 conjugacy classes of subgroups of S₅.</p>
+
+<h3>2.4 Induced representations and Frobenius reciprocity</h3>
+<p>More generally, start with a one-dimensional character λ: H → ℂ<sup>×</sup> and build Ind<sub>H</sub><sup>G</sup>(λ): a representation of dimension |G/H| whose basis vectors are indexed by cosets and on which each ρ(g) acts as a permutation matrix with entries multiplied by values of λ — a <i>monomial</i> matrix. Concretely, Ind<sub>H</sub>(λ) is realized by the functions f on G with f(gh) = λ(h)<sup>−1</sup> f(g) for h ∈ H: "constant on cosets up to a phase." The dictionary between this and the isotypic blocks is Frobenius reciprocity,</p>
+<p style="text-align:center">⟨Ind<sub>H</sub>(λ), ρ⟩ = ⟨λ, Res<sub>H</sub>(ρ)⟩,</p>
+<p>which says: ρ appears in Ind<sub>H</sub>(λ) exactly as many times as ρ, restricted to H, contains a vector b with ρ(h)b = λ(h)b. For λ = 1 this is "ρ has an H-fixed vector". This one line is the whole reconciliation: <b>a neuron of the form g ↦ aᵀρ(g)b with b fixed by H is simultaneously an irrep neuron (it lies in V<sub>ρ</sub>) and a coset neuron (it is constant on cosets of H).</b></p>
+
+<h3>2.5 Monomial irreps and the dissolution idea</h3>
+<p>An irrep is <i>monomial</i> if it equals Ind<sub>H</sub>(λ) for some H and some one-dimensional λ — i.e. it has a basis in which every ρ(g) is a monomial matrix, so its coordinates <i>are</i> coset coordinates (with phases). A group all of whose irreps are monomial is an <i>M-group</i>; all supersolvable groups are M-groups, which covers ℤₙ, dihedral groups, and Aff(ℤₙ). On such a group an "irrep circuit" and a "coset circuit" are literally the same object in two bases, with no slack. The symmetric group S₅ is not an M-group (Taketa's theorem: M-groups are solvable), which is why the dispute could arise there at all. For S₅, our exact computations give:</p>
+<ul>
+<li>trivial, sign: monomial (1-dimensional);</li>
+<li>6d = Ind<sub>F₂₀</sub>(λ₁) = Ind<sub>F₂₀</sub>(λ₃), where λ₁, λ₃ are the two order-4 characters of F₂₀ ≅ C₅ ⋊ C₄ — monomial;</li>
+<li>standard, standard′, 5a, 5b: not monomial (S₅ has no subgroup of index 4; its index-5 subgroups are the S₄'s, whose two linear characters give trivial ⊕ standard and sign ⊕ standard′, not irreps; the index-6 subgroup F₂₀ gives trivial ⊕ 5a, sign ⊕ 5b, and 6d).</li>
+</ul>
+<p>Every non-monomial irrep of S₅ is nonetheless "monomial up to one linear constituent": Ind<sub>H</sub>(λ) = ρ ⊕ (one 1-dim irrep). We call that one extra constituent the <i>slack</i>. All four non-monomial irreps of S₅ have slack exactly 1, so S₅ offers no gradation in slack; S₆ and larger do.</p>
+
+<h2 id="s3"><span class="n">3</span>The hypothesis going in</h2>
+<p>As of the start of this week the project's claims were:</p>
+<ol>
+<li><b>Dissolution.</b> Stander's cosets and Chughtai's irreps are two bases of the same induced-representation construction wherever the irrep is monomial; the dispute should dissolve, not resolve, on M-groups. The clean testbed is the family Aff(ℤₙ) = ℤₙ ⋊ ℤₙ<sup>×</sup>, whose higher irreps are all induced from characters of the translation subgroup.</li>
+<li><b>Per-irrep split on S₅.</b> Monomial irreps {trivial, sign, 6d} should show coset organization; non-monomial {standard, standard′, 5a, 5b} should not.</li>
+<li><b>The 6d signature.</b> A 6d neuron should be constant on cosets of C₅ with a 4-periodic rotation across F₂₀/C₅ ≅ C₄ — a "clock" on the 5-cycle subgroup. (Plain F₂₀-coset-constant functions carry no 6d weight; Figure 1.)</li>
+<li><b>The puzzle.</b> Chughtai report that 6d is never learned and Stander report no C₅ circuits: the one higher irrep with a genuine coset coordinate system is the one networks avoid.</li>
+</ol>
+<p>Claims 2 and 3 are the ones the literature review forced us to revise (§4.6).</p>
+
+<h2 id="s4"><span class="n">4</span>Literature review</h2>
+<p>A background agent swept arXiv, Semantic Scholar and the relevant PDFs for anything connecting induced representations, monomiality, or non-trivial characters to network features; the full annotated report is <code>lit_review.md</code>. Here is what matters.</p>
+
+<h3>4.1 Wu, Jaburi, Drori &amp; Gross (ICLR 2025 spotlight)</h3>
+<p><i>"Towards a Unified and Verified Understanding of Group-Operation Networks"</i> (arXiv:2410.07476) trains 100 one-layer S₅ models (width 128, 40% train, Adam) and sets out explicitly to unify the two prior accounts. Their key definitions and result:</p>
+<div class="def"><span class="eyebrow">Wu et al., Definition 6.3 and Lemma G.6 (verified from the PDF)</span>
+<p>A function f: G → ℝ is a <i>projected ρ-set</i> if f(g) = aᵀρ(g)b for some irrep ρ and vectors a, b, where b has a non-trivial stabilizer H = {h : ρ(h)b = b}. <b>Lemma G.6:</b> f is both irrep-sparse (Chughtai's condition) and coset-concentrated (Stander's condition) if and only if f is a projected ρ-set. The proof builds the permutation representation on G/H — in their words, "ρ̃ is induced by the trivial representation on H."</p></div>
+<p>That is the trivial-character instance of §2.4, published. They also observe empirically that each neuron's three coefficient matrices are rank one and that the b-vectors of all neurons on a given irrep form finite G-orbits ("ρ-sets"), and they explain the <i>frequency</i> with which each irrep is learned by the size of its smallest ρ-set — the smallest index of a subgroup with a fixed vector — rather than by dimension: standard needs an orbit of size 5 (stabilizer S₄), standard′ needs 10 (A₄), 5a needs 6 (F₂₀), 5b needs 10 (S₃×S₂), 6d needs 20 (S₃ or C₆). A complete circuit needs |orbit|² neurons, so 6d would need 400 — more than the layer has. (Their Table 2 prints 12 for 5b, but their own Table 3 gives the D₁₂ ≅ S₃×S₂ orbit size 10, which is correct.)</p>
+<p>Crucially, they name what the trivial-character picture leaves open (their §6.3): the permutation representation on G/H "is never itself an irrep; it always contains the trivial irrep… Thus, it does not explain why the models' neurons are supported purely on single irreps." Induction from a <i>non-trivial</i> character is precisely the construction that produces an irrep with no trivial summand. The words "monomial", "M-group", "linear character", "twist" do not occur in the paper.</p>
+
+<h3>4.2 Stander et al., revisited</h3>
+<p>Re-reading Stander with the reciprocity lens: their Appendix G.2 already uses Frobenius reciprocity for the trivial character, and their Table 5 tabulates, for every conjugacy class of subgroups of S₅, how the Fourier energy of the (centered) coset indicator splits across irreps — S₄ → 100% standard, F₂₀ → 100% 5a, A₅ → 100% sign, D₁₀ → 45.5% / 45.5% on 5a and 5b, S₃×S₂ → 55.6% standard / 44.4% 5b. Our dictionary (§5.4) reproduces this row for row. Two further things from their appendix matter for us. Their coset statistic is C<sub>H</sub>(f) = (within-coset variance)/(total variance), minimized over all 156 subgroups per neuron per side — we will use exactly 1 − C<sub>H</sub>, so the results are comparable. And they record a puzzle: coset neurons on subgroups like D₁₀, whose indicator spans two irreps, nonetheless "always do concentrate one irrep… We do not have an explanation for why," adding "We do not think that there is in fact a connection between what the circuit is doing [and] the irrep." The induced-module picture — a neuron is a vector in Im(Q<sub>H</sub>) ∩ V<sub>ρ</sub>, the ρ-part of the induced module — is that explanation, with the single-irrep part supplied by margin maximization (§4.3).</p>
+
+<h3>4.3 Morwani, Edelman, Oncescu, Zhang &amp; Barak (ICLR 2024)</h3>
+<p><i>"Feature emergence via margin maximization"</i> proves, for one-hidden-layer networks with <i>quadratic</i> activation and L<sub>2,3</sub> regularization on group composition, that any maximum-margin network has every neuron supported on a single non-trivial irrep and has <b>at least one neuron on every non-trivial irrep</b>. The theorem's hypothesis Σ d<sub>ρ</sub><sup>1.5</sup> χ<sub>ρ</sub>(C) &lt; 0 holds for S<sub>k</sub> up to k = 5, and their own S₅ experiment shows neurons on the 6d irrep. So the "6d is never learned" fact of §6.1 is not a consequence of margin maximization as such; it is a property of the ReLU / cross-entropy / weight-decay regime. This turns claim 4 of §3 from a puzzle into a lever (§7.1).</p>
+
+<h3>4.4 Other relevant work</h3>
+<ul>
+<li>Marchetti et al. (2026), sequential group composition: a utility rule favouring low-dimensional and real irreps. He (2026): proof of single-irrep convergence per neuron. Neither mentions cosets or induction.</li>
+<li>McCracken et al. (2025/2026): composite-modulus modular arithmetic shows approximate-CRT and "precise coset" structure when gcd(f, n) &gt; 1 — the closest thing to our divisor-lattice predictions for Aff(ℤₙ), on the additive side only. Chen et al. (2026): gcd-stratified structure for modular <i>multiplication</i>.</li>
+<li><b>Not obtained:</b> McCracken, Wei, Moisescu-Pareja, Wiltzer &amp; Love, <i>"The representations of deep neural networks trained on dihedral group multiplication"</i> (NeurReps @ NeurIPS 2025). Dihedral groups are M-groups; a follow-up reports coset structure there. This is the nearest existing test of the dissolution claim and must be read before we write anything.</li>
+<li>No paper trains on Aff(ℤₙ), a Frobenius group, or the action task (predict a·x + b rather than a composition); no paper mentions Ramanujan sums.</li>
+</ul>
+
+<h3>4.5 What is ours and what is theirs</h3>
+</div>
+<div class="tblwrap wide"><table>
+<thead><tr><th>Claim</th><th>Status</th><th>Where</th></tr></thead>
+<tbody>
+<tr><td>Irrep-sparse ∧ coset-concentrated ⇔ orbit of an H-fixed vector (trivial character)</td><td>Published</td><td>Wu et al. Lemma G.6; Stander App. G.2 (reciprocity)</td></tr>
+<tr><td>Irrep frequency follows minimum orbit size, not dimension</td><td>Published</td><td>Wu et al. §6.3, Table 2</td></tr>
+<tr><td>Each neuron uses a single irrep (max-margin)</td><td>Published</td><td>Morwani et al. Thm; He 2026</td></tr>
+<tr><td>Coset neurons on multi-irrep subgroups concentrate on one irrep</td><td>Observed, unexplained</td><td>Stander App. G.2 — "we do not have an explanation"</td></tr>
+<tr><td>Induction from non-trivial characters; twisted cosets; the trivial-summand gap</td><td>Ours</td><td>Wu et al. name the gap; nobody fills it</td></tr>
+<tr><td>Monomiality / M-groups; "the dispute dissolves on M-groups"</td><td>Ours (pending McCracken)</td><td>zero hits</td></tr>
+<tr><td>Aff(ℤₙ) family, action task, Ramanujan/divisor structure in the regular rep</td><td>Ours</td><td>zero hits</td></tr>
+<tr><td>6d energy as a memorization marker; Morwani-vs-ReLU contrast on 6d</td><td>Ours (found this week, §6)</td><td>—</td></tr>
+</tbody></table></div>
+<div class="prose">
+
+<h3>4.6 Two corrections to the hypothesis</h3>
+<div class="warn"><span class="eyebrow">Correction A — the per-irrep split (claim 2) is wrong as stated</span>
+<p>"Non-monomial irreps should not show coset organization" is refuted by the record: Stander's headline S₅ circuit is built from S₄-coset neurons, and those live in the standard irrep, which is not monomial. Wu et al. exhibit a coset-constant vector for every S₅ irrep. What monomiality changes is not <i>whether</i> coset structure exists but its <i>slack</i>: for a monomial irrep there is an (H, λ) with Ind<sub>H</sub>(λ) = ρ exactly, so the |G/H| = d<sub>ρ</sub> coset values are unconstrained irrep coordinates; for a slack-1 irrep the |G/H| = d<sub>ρ</sub> + 1 coset values satisfy one linear constraint (Stander's own S₄ neuron takes values 4, 2, 0, −2, −4, summing to zero). On S₅ every learned irrep has slack 1, so the graded prediction can only be tested across a family of groups.</p></div>
+<div class="warn"><span class="eyebrow">Correction B — the C₅ "clock" (claim 3) is not a discriminating signature</span>
+<p>The C₅-fixed subspace of the 6d irrep is 2-dimensional (6d appears twice in Ind<sub>C₅</sub>(1); Figure 1, last row) and F₂₀/C₅ ≅ C₄ acts on it by λ₁ ⊕ λ̄₁. So <i>any</i> C₅-fixed vector in 6d rotates by 90° under a generator of F₂₀/C₅: the "twist" is a property of restricting 6d to F₂₀, and a Wu-style orbit with stabilizer C₅ has it automatically. The question that does discriminate is <b>which orbit</b> a 6d circuit would use: Wu's minimum-size rule says the S₃/C₆ orbit (size 20, plain cosets, lots of slack); an induction-based account says the F₂₀-structured C₅ orbit (size 24, the realification of Ind<sub>F₂₀</sub>(λ₁), no slack). This is testable only in a regime that actually learns 6d — Morwani's (§4.3).</p></div>
+
+<h2 id="s5"><span class="n">5</span>Step zero: infrastructure</h2>
+<h3>5.1 Materials</h3>
+<p>Both public repositories are cloned under <code>external/</code>. Chughtai's (<code>rep-theory-mech-interp</code>, 708 MB) ships final weights, configs, learned-irrep lists and summary metrics for every run; Stander's (<code>sn-grok</code>) ships code only, with weights on Google Drive (not needed for the probe). The S₅ inventory:</p>
+</div>
+<div class="tblwrap wide"><table>
+<thead><tr><th>Family</th><th class="num">Runs</th><th>Embed / hidden</th><th class="num">Epochs</th><th>Generalized (test ≥ 0.98)</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Mainline MLP</td><td class="num">50</td><td>256 / 128</td><td class="num">250,000</td><td>50 of 50</td><td>the paper's setting; seed 2 is their worked example</td></tr>
+<tr><td>Hidden-width sweep MLP</td><td class="num">30</td><td>64/32 … 224/112</td><td class="num">250k–1M</td><td>6 of 30</td><td>20 pure memorizers, 4 partial — a free control group</td></tr>
+<tr><td>Transformer (1 layer)</td><td class="num">4</td><td>128 d_model</td><td class="num">50,000</td><td>4 of 4</td><td>60% train split; needs a hand-rolled forward pass</td></tr>
+</tbody></table></div>
+<div class="prose">
+<p>Environment: <code>s5_probe/.venv</code> (Python 3.11, PyTorch 2.14 with Apple-silicon acceleration, NumPy, SciPy, SymPy). Chughtai's pinned 2022 dependencies are not installed and not needed: <code>model.pt</code> is a plain state dict of four matrices, and the forward pass is five lines.</p>
+
+<h3>5.2 Conventions, validated rather than assumed</h3>
+<p>Two things could have silently corrupted every result. First, the group elements are indexed by the order in which SymPy 1.11.1 happened to enumerate S₅; SymPy 1.14 no longer populates that list the same way. We installed 1.11.1 in a throwaway environment, dumped the ordering to <code>data/s5_elements_sympy1111.json</code>, and rebuilt the 120 × 120 multiplication table from it. Second, "x·y" could mean apply-x-then-y or the reverse. The check that settles both at once: a generalizing model scores <b>100.00%</b> on our rebuilt table under apply-x-then-y and <b>5.83%</b> under the reverse — the latter being exactly the fraction of commuting pairs in S₅. Stander compose right-to-left, so their (σ<sub>left</sub>, σ<sub>right</sub>) is Chughtai's (y, x); we test both coset sides regardless.</p>
+
+<h3>5.3 The probe package and what its self-tests prove</h3>
+<p><code>s5_probe/s5probe/</code> is a small, dependency-light library; <code>tests/selftest.py</code> runs in a few seconds and currently passes 50 checks. What they establish:</p>
+<ul>
+<li><b>Group</b> (<code>group.py</code>): the table is associative with correct inverses; the seven conjugacy classes have sizes 1, 10, 15, 20, 20, 30, 24; named subgroups A₅, S₄, F₂₀, D₁₀, C₅, S₃×S₂, S₃, C₄ are closed with the right orders and numbers of conjugates (F₂₀: 6, S₄: 5, C₅: 6).</li>
+<li><b>Characters</b> (<code>chars.py</code>): the character table's rows are orthonormal; the seven isotypic projectors are idempotent, symmetric, have ranks d<sub>ρ</sub>², and sum to the identity.</li>
+<li><b>Induced characters</b>: Ind<sub>A₅</sub>(1) = 1 ⊕ sgn; Ind<sub>S₄</sub>(1) = 1 ⊕ std; Ind<sub>S₄</sub>(sgn) = sgn ⊕ std′; Ind<sub>F₂₀</sub>(λ₀) = 1 ⊕ 5a; Ind<sub>F₂₀</sub>(λ₂) = sgn ⊕ 5b; Ind<sub>F₂₀</sub>(λ₁) = Ind<sub>F₂₀</sub>(λ₃) = 6d; Ind<sub>C₅</sub>(1) = 1 ⊕ sgn ⊕ 5a ⊕ 5b ⊕ 2·6d. The characters λ<sub>k</sub> of F₂₀ are built from the conjugation action on C₅ and checked to be homomorphisms under the model's own operation.</li>
+<li><b>Twisted-coset projectors</b>: the projector onto F₂₀-coset-constant functions has rank 6 and is annihilated by the 6d projector; the λ₁-twisted projector has rank 6 and lies entirely inside 6d; its image is constant on C₅-cosets. (Both sides.) This is Figure 1, proved.</li>
+<li><b>Pipeline</b> (<code>metrics.py</code>): our basis-free re-implementation of Chughtai's per-irrep hidden-energy metric reproduces every number in their <code>summary_metrics.json</code> to within 1.3 × 10<sup>−3</sup> on generalizing models — so the loader, indexing, projectors and centering are all consistent with theirs.</li>
+</ul>
+
+<h3>5.4 The subgroup ↔ irrep dictionary</h3>
+<p><code>subgroups.py</code> enumerates all subgroups of S₅ by closing every pair of elements (156 subgroups in 19 conjugacy classes, matching the OEIS count Stander cite) and decomposes Ind<sub>H</sub>(1) and Ind<sub>H</sub>(sgn) for each. The full table is <code>results/coset_irrep_dictionary.md</code>; the small-index rows, which are the ones that can carry a strong "coset" claim, are:</p>
+</div>
+<div class="tblwrap wide"><table>
+<thead><tr><th>H</th><th class="num">order</th><th class="num">#cosets</th><th class="num">#conj.</th><th>plain cosets carry (Ind<sub>H</sub> 1)</th><th>sign-twisted cosets carry (Ind<sub>H</sub> sgn)</th></tr></thead>
+<tbody>
+<tr><td>A₅</td><td class="num">60</td><td class="num">2</td><td class="num">1</td><td>1 ⊕ sgn</td><td>1 ⊕ sgn</td></tr>
+<tr><td>S₄</td><td class="num">24</td><td class="num">5</td><td class="num">5</td><td>1 ⊕ std</td><td>sgn ⊕ std′</td></tr>
+<tr><td>F₂₀</td><td class="num">20</td><td class="num">6</td><td class="num">6</td><td>1 ⊕ 5a</td><td>sgn ⊕ 5b</td></tr>
+<tr><td>A₄</td><td class="num">12</td><td class="num">10</td><td class="num">5</td><td>1 ⊕ sgn ⊕ std ⊕ std′</td><td>same</td></tr>
+<tr><td>S₃×S₂</td><td class="num">12</td><td class="num">10</td><td class="num">10</td><td>1 ⊕ std ⊕ 5b</td><td>sgn ⊕ std′ ⊕ 5a</td></tr>
+<tr><td>D₁₀</td><td class="num">10</td><td class="num">12</td><td class="num">6</td><td>1 ⊕ sgn ⊕ 5a ⊕ 5b</td><td>same</td></tr>
+<tr><td>D₈</td><td class="num">8</td><td class="num">15</td><td class="num">15</td><td>1 ⊕ std ⊕ 5a ⊕ 5b</td><td>sgn ⊕ std′ ⊕ 5a ⊕ 5b</td></tr>
+<tr><td>S₃, C₆</td><td class="num">6</td><td class="num">20</td><td class="num">10</td><td>first appearance of 6d (with 2·std or std ⊕ std′)</td><td>…</td></tr>
+<tr><td>C₅</td><td class="num">5</td><td class="num">24</td><td class="num">6</td><td>1 ⊕ sgn ⊕ 5a ⊕ 5b ⊕ 2·6d</td><td>same</td></tr>
+</tbody></table></div>
+<div class="prose">
+<p>Three things to read off. Every irrep that generalizing models actually use (§6.2) has a coset realization with at most 10 cosets: std via S₄, 5a via F₂₀, std′ via sign-twisted S₄, 5b via S₃×S₂ or sign-twisted F₂₀. The 6d irrep's cheapest plain-coset realization needs 20 cosets; its only 6-coset realization is the λ₁-twist. And this table is Wu et al.'s Table 3 and Stander's Table 5, recomputed — a useful consistency check on all three.</p>
+
+<h3>5.5 Null distributions — what "coset-organized" has to beat</h3>
+<p>Define the coset-alignment score of a centered function u as α<sub>H</sub>(u) = max over the conjugates of H and both coset sides of ‖Q<sub>H</sub>u‖²/‖u‖², where Q<sub>H</sub> projects onto H-coset-constant functions (α<sub>H</sub> = 1 − C<sub>H</sub>). Before touching any model we asked what score a <i>random</i> vector in an isotypic block achieves, by Monte Carlo (4,000 samples per cell; <code>results/null_coset_scores.md</code>). The answer is sobering:</p>
+</div>
+<div class="tblwrap wide"><table>
+<thead><tr><th>irrep</th><th>family</th><th class="num">k/D (one subspace)</th><th class="num">null mean</th><th class="num">p95</th><th class="num">p99</th><th class="num">max</th></tr></thead>
+<tbody>
+<tr><td>std</td><td>S₄</td><td class="num">0.250</td><td class="num">0.507</td><td class="num">0.682</td><td class="num">0.756</td><td class="num">0.878</td></tr>
+<tr><td>std</td><td>S₃</td><td class="num">0.500</td><td class="num">0.790</td><td class="num">0.900</td><td class="num">0.934</td><td class="num">0.978</td></tr>
+<tr><td>std′</td><td>S₄ (sign-twisted)</td><td class="num">0.250</td><td class="num">0.507</td><td class="num">0.680</td><td class="num">0.756</td><td class="num">0.909</td></tr>
+<tr><td>5a</td><td>F₂₀</td><td class="num">0.200</td><td class="num">0.408</td><td class="num">0.546</td><td class="num">0.622</td><td class="num">0.795</td></tr>
+<tr><td>5b</td><td>S₃×S₂</td><td class="num">0.200</td><td class="num">0.438</td><td class="num">0.574</td><td class="num">0.636</td><td class="num">0.836</td></tr>
+<tr><td>5b</td><td>F₂₀ (sign-twisted)</td><td class="num">0.200</td><td class="num">0.410</td><td class="num">0.547</td><td class="num">0.622</td><td class="num">0.775</td></tr>
+<tr><td>6d</td><td>C₅</td><td class="num">0.333</td><td class="num">0.527</td><td class="num">0.634</td><td class="num">0.690</td><td class="num">0.781</td></tr>
+<tr><td>6d</td><td>S₃</td><td class="num">0.167</td><td class="num">0.357</td><td class="num">0.471</td><td class="num">0.531</td><td class="num">0.667</td></tr>
+</tbody></table></div>
+<div class="prose">
+<p>A random standard-irrep vector already scores 0.51 against the best of the ten S₄-coset subspaces, because ten 4-dimensional subspaces nearly fill a 16-dimensional block; against S₃ the null is 0.79 and the test is close to vacuous. Consequences for the pre-registration: the bar must be high (≈ 0.90, where the null mass is ≈ 0 for every index-≤12 family), the search must be restricted to small-index subgroups, and any report of "α = 0.6, so coset-organized" would be a mistake. Stander's cleaned-up neurons reach C<sub>H</sub> &lt; 10<sup>−5</sup>, i.e. α &gt; 0.99999, so a real effect clears the bar easily.</p>
+
+<h2 id="s6"><span class="n">6</span>Findings before any new experiment</h2>
+<h3>6.1 The 6d irrep's energy marks memorization</h3>
+<p>Chughtai's summary files record, for each run, the fraction of centered hidden-layer energy in each irrep block. Plotting that fraction for the 6d block against the run's test accuracy, across all 84 released S₅ models, gives Figure 2.</p>
+</div>
+<figure class="wide">
+<svg class="chart" viewBox="0 0 760 380" role="img" aria-labelledby="fig2t fig2d"><title id="fig2t">6d hidden energy versus test accuracy for all 84 released S5 models</title><desc id="fig2d">Every model with test accuracy at or above 0.98 has 6d energy at or below 0.005; every memorizing model has 6d energy between 0.10 and 0.26.</desc>
+<line x1="64" x2="736" y1="326.0" y2="326.0" class="grid"/><text x="56" y="330.0" class="tick" text-anchor="end">0.00</text>
+<line x1="64" x2="736" y1="272.8" y2="272.8" class="grid"/><text x="56" y="276.8" class="tick" text-anchor="end">0.05</text>
+<line x1="64" x2="736" y1="219.6" y2="219.6" class="grid"/><text x="56" y="223.6" class="tick" text-anchor="end">0.10</text>
+<line x1="64" x2="736" y1="166.4" y2="166.4" class="grid"/><text x="56" y="170.4" class="tick" text-anchor="end">0.15</text>
+<line x1="64" x2="736" y1="113.1" y2="113.1" class="grid"/><text x="56" y="117.1" class="tick" text-anchor="end">0.20</text>
+<line x1="64" x2="736" y1="59.9" y2="59.9" class="grid"/><text x="56" y="63.9" class="tick" text-anchor="end">0.25</text>
+<text x="64.0" y="344" class="tick" text-anchor="middle">0.0</text>
+<text x="198.4" y="344" class="tick" text-anchor="middle">0.2</text>
+<text x="332.8" y="344" class="tick" text-anchor="middle">0.4</text>
+<text x="467.2" y="344" class="tick" text-anchor="middle">0.6</text>
+<text x="601.6" y="344" class="tick" text-anchor="middle">0.8</text>
+<text x="736.0" y="344" class="tick" text-anchor="middle">1.0</text>
+<line x1="64" x2="736" y1="326" y2="326" class="axis"/>
+<text x="400" y="368" class="axlabel" text-anchor="middle">test accuracy (all 14,400 pairs)</text>
+<text transform="translate(16,177) rotate(-90)" class="axlabel" text-anchor="middle">fraction of hidden energy in the 6d block</text>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_112_seed1 · acc 1.000 · 6d 0.000 · hidden 112</title></circle>
+<circle cx="574.3" cy="241.3" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_112_seed2 · acc 0.759 · 6d 0.080 · hidden 112</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_112_seed3 · acc 1.000 · 6d 0.000 · hidden 112</title></circle>
+<circle cx="736.0" cy="325.7" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_112_seed4 · acc 1.000 · 6d 0.000 · hidden 112</title></circle>
+<circle cx="517.7" cy="292.1" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed1 · acc 0.675 · 6d 0.032 · hidden 32</title></circle>
+<circle cx="118.2" cy="207.4" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed10 · acc 0.081 · 6d 0.111 · hidden 32</title></circle>
+<circle cx="79.7" cy="225.1" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed2 · acc 0.023 · 6d 0.095 · hidden 32</title></circle>
+<circle cx="71.2" cy="100.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed3 · acc 0.011 · 6d 0.212 · hidden 32</title></circle>
+<circle cx="71.2" cy="143.3" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed4 · acc 0.011 · 6d 0.172 · hidden 32</title></circle>
+<circle cx="70.8" cy="153.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed5 · acc 0.010 · 6d 0.162 · hidden 32</title></circle>
+<circle cx="726.9" cy="320.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed6 · acc 0.986 · 6d 0.005 · hidden 32</title></circle>
+<circle cx="353.5" cy="268.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed7 · acc 0.431 · 6d 0.054 · hidden 32</title></circle>
+<circle cx="66.4" cy="64.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed8 · acc 0.004 · 6d 0.246 · hidden 32</title></circle>
+<circle cx="261.6" cy="279.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_32_seed9 · acc 0.294 · 6d 0.044 · hidden 32</title></circle>
+<circle cx="66.8" cy="91.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_48_seed1 · acc 0.004 · 6d 0.221 · hidden 48</title></circle>
+<circle cx="72.9" cy="151.9" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_48_seed2 · acc 0.013 · 6d 0.164 · hidden 48</title></circle>
+<circle cx="69.9" cy="146.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_48_seed3 · acc 0.009 · 6d 0.169 · hidden 48</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_48_seed4 · acc 1.000 · 6d 0.000 · hidden 48</title></circle>
+<circle cx="66.2" cy="99.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_64_seed1 · acc 0.003 · 6d 0.213 · hidden 64</title></circle>
+<circle cx="66.8" cy="91.7" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_64_seed2 · acc 0.004 · 6d 0.220 · hidden 64</title></circle>
+<circle cx="69.1" cy="94.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_64_seed3 · acc 0.008 · 6d 0.218 · hidden 64</title></circle>
+<circle cx="66.6" cy="84.1" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_64_seed4 · acc 0.004 · 6d 0.227 · hidden 64</title></circle>
+<circle cx="67.0" cy="85.8" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_80_seed1 · acc 0.004 · 6d 0.226 · hidden 80</title></circle>
+<circle cx="99.2" cy="199.3" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_80_seed2 · acc 0.052 · 6d 0.119 · hidden 80</title></circle>
+<circle cx="64.9" cy="55.5" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_80_seed3 · acc 0.001 · 6d 0.254 · hidden 80</title></circle>
+<circle cx="66.2" cy="68.9" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_80_seed4 · acc 0.003 · 6d 0.242 · hidden 80</title></circle>
+<circle cx="116.1" cy="180.4" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_96_seed1 · acc 0.078 · 6d 0.137 · hidden 96</title></circle>
+<circle cx="71.0" cy="111.2" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_96_seed2 · acc 0.010 · 6d 0.202 · hidden 96</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_96_seed3 · acc 1.000 · 6d 0.000 · hidden 96</title></circle>
+<circle cx="65.6" cy="52.3" r="5" class="dot" tabindex="0"><title>S5_MLP_hidden_dim_96_seed4 · acc 0.002 · 6d 0.257 · hidden 96</title></circle>
+<circle cx="736.0" cy="325.8" r="5" class="dot" tabindex="0"><title>S5_MLP_seed1 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="325.7" r="5" class="dot" tabindex="0"><title>S5_MLP_seed10 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed11 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed12 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed13 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed14 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed15 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed16 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed17 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed18 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed19 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed2 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed20 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed21 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="324.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed22 · acc 1.000 · 6d 0.002 · hidden 128</title></circle>
+<circle cx="736.0" cy="325.6" r="5" class="dot" tabindex="0"><title>S5_MLP_seed23 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed24 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed25 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed26 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="325.5" r="5" class="dot" tabindex="0"><title>S5_MLP_seed27 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed28 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed29 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed3 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed30 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed31 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="325.5" r="5" class="dot" tabindex="0"><title>S5_MLP_seed32 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed33 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed34 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed35 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed36 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed37 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed38 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed39 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed4 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed40 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed41 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="735.9" cy="324.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed42 · acc 1.000 · 6d 0.002 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed43 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed44 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="325.9" r="5" class="dot" tabindex="0"><title>S5_MLP_seed45 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed46 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed47 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed48 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed49 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed5 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed50 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed6 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed7 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed8 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_MLP_seed9 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_T_seed1 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="323.0" r="5" class="dot" tabindex="0"><title>S5_T_seed2 · acc 1.000 · 6d 0.003 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_T_seed3 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<circle cx="736.0" cy="326.0" r="5" class="dot" tabindex="0"><title>S5_T_seed4 · acc 1.000 · 6d 0.000 · hidden 128</title></circle>
+<text x="723" y="294" class="annot" text-anchor="end">60 generalizing models — 6d ≤ 0.005</text>
+<text x="83" y="33" class="annot">20 memorizers (train acc ≈ 1, test ≈ 0) — 6d 0.10–0.26</text>
+<text x="366" y="220" class="annot" text-anchor="middle">4 partial generalizers in between</text>
+</svg>
+<figcaption><b>Figure 2.</b> Each dot is one released model (hover for its name). The 60 models that generalize put at most 0.5% of hidden energy in the 6d block; the 20 models that memorized the training set (train accuracy ≈ 1, test ≈ 0) put 10–26% there, with the 4 partial generalizers in between. The memorizers' energy is spread across <i>all</i> blocks roughly in proportion to d<sub>ρ</sub>² — the spectrum of an arbitrary function on the group — so this is the noise floor of a lookup table, not a learned 6d circuit. Source: <code>summary_metrics.json</code> of every <code>S5_*</code> run; table view below.</figcaption>
+<details><summary>Table view: all 84 runs (green = generalized, rust = memorized)</summary>
+<div class="tblwrap"><table>
+<thead><tr><th>run</th><th class="num">embed</th><th class="num">hidden</th><th class="num">epochs</th><th class="num">test acc</th><th class="num">std energy</th><th class="num">6d energy</th><th>key irreps</th></tr></thead>
+<tbody>
+<tr class="gen"><td class="mono">S5_MLP_seed1</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.377</td><td class="num">0.000</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed2</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.813</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed3</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.690</td><td class="num">0.000</td><td>sgn std 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed4</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.855</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed5</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.488</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed6</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.611</td><td class="num">0.000</td><td>sgn std std′</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed7</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.005</td><td class="num">0.000</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed8</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.081</td><td class="num">0.000</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed9</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.806</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed10</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.205</td><td class="num">0.000</td><td>sgn std std′ 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed11</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.824</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed12</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.819</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed13</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.526</td><td class="num">0.000</td><td>sgn std 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed14</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.043</td><td class="num">0.000</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed15</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.453</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed16</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.824</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed17</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.819</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed18</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.553</td><td class="num">0.000</td><td>sgn std std′</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed19</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.807</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed20</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.186</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed21</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.854</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed22</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.464</td><td class="num">0.002</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed23</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.454</td><td class="num">0.000</td><td>std std′ 5a 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed24</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.689</td><td class="num">0.000</td><td>sgn std 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed25</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.591</td><td class="num">0.000</td><td>sgn std std′</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed26</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.358</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed27</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.382</td><td class="num">0.000</td><td>sgn std std′ 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed28</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.001</td><td class="num">0.000</td><td>sgn std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed29</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.558</td><td class="num">0.000</td><td>sgn std std′</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed30</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.853</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed31</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.854</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed32</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.138</td><td class="num">0.000</td><td>sgn std std′ 5a 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed33</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.822</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed34</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.495</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed35</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.856</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed36</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.857</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed37</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.855</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed38</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.511</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed39</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.825</td><td class="num">0.000</td><td>sgn std 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed40</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.545</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed41</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.808</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed42</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.175</td><td class="num">0.002</td><td>sgn std std′ 5a 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed43</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.821</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed44</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.818</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed45</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.206</td><td class="num">0.000</td><td>sgn std std′ 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed46</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.337</td><td class="num">0.000</td><td>sgn std 5a</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed47</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.647</td><td class="num">0.000</td><td>sgn std 5b</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed48</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.822</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed49</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.853</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_seed50</td><td class="num">256</td><td class="num">128</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.612</td><td class="num">0.000</td><td>sgn std std′</td></tr>
+<tr><td class="mono">S5_MLP_hidden_dim_32_seed1</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.675</td><td class="num">0.704</td><td class="num">0.032</td><td>sgn std 5a</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed2</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.023</td><td class="num">0.580</td><td class="num">0.095</td><td>std std′ 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed3</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.011</td><td class="num">0.080</td><td class="num">0.212</td><td>std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed4</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.011</td><td class="num">0.091</td><td class="num">0.172</td><td>sgn std 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed5</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.010</td><td class="num">0.054</td><td class="num">0.162</td><td>sgn std′ 5a 5b 6d</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_32_seed6</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.986</td><td class="num">0.838</td><td class="num">0.005</td><td>sgn std</td></tr>
+<tr><td class="mono">S5_MLP_hidden_dim_32_seed7</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.431</td><td class="num">0.354</td><td class="num">0.054</td><td>sgn std std′ 5a 5b</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed8</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.004</td><td class="num">0.099</td><td class="num">0.246</td><td>std std′ 5a 5b 6d</td></tr>
+<tr><td class="mono">S5_MLP_hidden_dim_32_seed9</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.294</td><td class="num">0.329</td><td class="num">0.044</td><td>sgn std std′ 5a 5b</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_32_seed10</td><td class="num">64</td><td class="num">32</td><td class="num">1,000,000</td><td class="num">0.081</td><td class="num">0.408</td><td class="num">0.111</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_48_seed1</td><td class="num">96</td><td class="num">48</td><td class="num">500,000</td><td class="num">0.004</td><td class="num">0.084</td><td class="num">0.221</td><td>std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_48_seed2</td><td class="num">96</td><td class="num">48</td><td class="num">500,000</td><td class="num">0.013</td><td class="num">0.181</td><td class="num">0.164</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_48_seed3</td><td class="num">96</td><td class="num">48</td><td class="num">500,000</td><td class="num">0.009</td><td class="num">0.082</td><td class="num">0.169</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_48_seed4</td><td class="num">96</td><td class="num">48</td><td class="num">500,000</td><td class="num">1.000</td><td class="num">0.852</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_64_seed1</td><td class="num">128</td><td class="num">64</td><td class="num">500,000</td><td class="num">0.003</td><td class="num">0.130</td><td class="num">0.213</td><td>std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_64_seed2</td><td class="num">128</td><td class="num">64</td><td class="num">500,000</td><td class="num">0.004</td><td class="num">0.101</td><td class="num">0.220</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_64_seed3</td><td class="num">128</td><td class="num">64</td><td class="num">500,000</td><td class="num">0.008</td><td class="num">0.143</td><td class="num">0.218</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_64_seed4</td><td class="num">128</td><td class="num">64</td><td class="num">500,000</td><td class="num">0.004</td><td class="num">0.112</td><td class="num">0.227</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_80_seed1</td><td class="num">160</td><td class="num">80</td><td class="num">250,000</td><td class="num">0.004</td><td class="num">0.086</td><td class="num">0.226</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_80_seed2</td><td class="num">160</td><td class="num">80</td><td class="num">250,000</td><td class="num">0.052</td><td class="num">0.427</td><td class="num">0.119</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_80_seed3</td><td class="num">160</td><td class="num">80</td><td class="num">250,000</td><td class="num">0.001</td><td class="num">0.129</td><td class="num">0.254</td><td>std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_80_seed4</td><td class="num">160</td><td class="num">80</td><td class="num">250,000</td><td class="num">0.003</td><td class="num">0.102</td><td class="num">0.242</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_96_seed1</td><td class="num">192</td><td class="num">96</td><td class="num">250,000</td><td class="num">0.078</td><td class="num">0.218</td><td class="num">0.137</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_96_seed2</td><td class="num">192</td><td class="num">96</td><td class="num">250,000</td><td class="num">0.010</td><td class="num">0.138</td><td class="num">0.202</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_96_seed3</td><td class="num">192</td><td class="num">96</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.804</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="mem"><td class="mono">S5_MLP_hidden_dim_96_seed4</td><td class="num">192</td><td class="num">96</td><td class="num">250,000</td><td class="num">0.002</td><td class="num">0.128</td><td class="num">0.257</td><td>std std′ 5a 5b 6d</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_112_seed1</td><td class="num">224</td><td class="num">112</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.802</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr><td class="mono">S5_MLP_hidden_dim_112_seed2</td><td class="num">224</td><td class="num">112</td><td class="num">250,000</td><td class="num">0.759</td><td class="num">0.045</td><td class="num">0.080</td><td>sgn std std′ 5a 5b 6d</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_112_seed3</td><td class="num">224</td><td class="num">112</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.853</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_MLP_hidden_dim_112_seed4</td><td class="num">224</td><td class="num">112</td><td class="num">250,000</td><td class="num">1.000</td><td class="num">0.407</td><td class="num">0.000</td><td>sgn std std′ 5b</td></tr>
+<tr class="gen"><td class="mono">S5_T_seed1</td><td class="num">256</td><td class="num">128</td><td class="num">50,000</td><td class="num">1.000</td><td class="num">0.062</td><td class="num">0.000</td><td>sgn std′</td></tr>
+<tr class="gen"><td class="mono">S5_T_seed2</td><td class="num">256</td><td class="num">128</td><td class="num">50,000</td><td class="num">1.000</td><td class="num">0.021</td><td class="num">0.003</td><td>sgn std′</td></tr>
+<tr class="gen"><td class="mono">S5_T_seed3</td><td class="num">256</td><td class="num">128</td><td class="num">50,000</td><td class="num">1.000</td><td class="num">0.866</td><td class="num">0.000</td><td>sgn std</td></tr>
+<tr class="gen"><td class="mono">S5_T_seed4</td><td class="num">256</td><td class="num">128</td><td class="num">50,000</td><td class="num">1.000</td><td class="num">0.866</td><td class="num">0.000</td><td>sgn std</td></tr>
+</tbody></table></div></details>
+</figure>
+<div class="prose">
+<p>Two consequences. There is no generalizing 6d substrate in the released weights, so the twisted-orbit test of Correction B cannot be run on them; it needs a model trained to use 6d. And the statement "6d is never learned" sharpens to something with teeth: <b>6d energy in a generalizing model is zero, and 6d energy in the hidden layer is a marker of failure to generalize.</b></p>
+
+<h3>6.2 What generalizing models actually use</h3>
+<p>Across the 50 mainline seeds the standard irrep is present in 49 (in 21 of them it carries at least 80% of hidden energy on its own), sign in 49 (at 1–8%), standard′ in 17, 5a in 18, 5b in 10, 6d in none. So the per-irrep test of §3 claim 2 reduces, on this substrate, to: sign (monomial, trivially coset-constant on A₅ — uninformative), and four slack-1 irreps.</p>
+
+<h3>6.3 The Morwani contrast</h3>
+<p>Morwani's theorem covers S₅ and requires every non-trivial irrep, 6d included, to be present in a max-margin quadratic network; their own S₅ figure shows 6d neurons. ReLU networks trained with cross-entropy and weight decay never use it. So the selection of irreps is decided by the training regime, and a network that does learn 6d is obtainable by switching to Morwani's. That is the concrete content of "plan option B theoretically": the discriminating 6d experiment is <i>which orbit</i> (S₃, size 20 vs. F₂₀-structured C₅, size 24) a Morwani-regime network chooses, and it would separate Wu's minimum-orbit rule from an induction-based account.</p>
+
+<h2 id="s7"><span class="n">7</span>The plan from here</h2>
+<h3>7.1 Sharpened predictions</h3>
+<ul>
+<li><b>Slack, not monomial-vs-not.</b> On any group, a coset-aligned neuron on an index-k subgroup carrying irrep ρ has k coset values with k − d<sub>ρ</sub> linear constraints. On M-groups that number is 0 for a suitable (H, λ); on S₅ it is 1 for every learned irrep; on S₆+ it varies. The family sweep is where this becomes a test.</li>
+<li><b>Which orbit for 6d</b> (Correction B), in Morwani's regime.</li>
+<li><b>Aff(ℤₙ)</b>: for composite n the translation subgroup's divisor lattice turns on, and every irrep is exactly Ind of a character of ℤₙ — the case with no slack anywhere, where Chughtai's and Stander's descriptions must coincide neuron by neuron.</li>
+</ul>
+
+<h3>7.2 Pre-registration (draft v0 — not yet agreed)</h3>
+<p>Full text in <code>results/preregistration_draft.md</code>. Nothing has been computed on the models beyond Chughtai's own published energies.</p>
+<dl class="kv">
+<dt>object</dt><dd>per-neuron pre-activations u<sup>x</sup>, u<sup>y</sup>, centered; primary set = 50 mainline seeds; controls = the 20 memorizers; develop on seeds 1–10, confirm on 11–50 with statistics frozen in between</dd>
+<dt>statistics</dt><dd>S1 irrep energy profile; S2 coset alignment α<sub>H</sub> (= 1 − Stander's C<sub>H</sub>), plain and sign-twisted, index ≤ 12; S3 purity = fraction of the aligned part inside one irrep</dd>
+<dt>bar</dt><dd>coset-aligned ⇔ α<sub>H</sub> ≥ 0.90 for some small-index H (null p99 ≤ 0.83 for every such family)</dd>
+<dt>P1</dt><dd>energy-weighted fraction of coset-aligned pre-activations ≥ 0.5 in every mainline seed. <i>Falsified</i> if the median is below 0.5 — Stander's "almost every neuron" does not replicate in Chughtai's models.</dd>
+<dt>P2</dt><dd>memorizers score at null level. <i>Falsified</i> if they are coset-aligned too — the statistic, not generalization, is producing the effect.</dd>
+<dt>P3</dt><dd>coset neurons on D₁₀, S₃×S₂, A₄ have purity ≥ 0.9 in one irrep (Stander's unexplained observation; a check of the induced-module picture and of Morwani/He). <i>Falsified</i> if D₁₀ neurons routinely mix 5a and 5b.</dd>
+<dt>P4</dt><dd>slack-1 signature: k coset values, rank d<sub>ρ</sub> = k − 1 (consistency with Wu's projected-ρ-set form).</dd>
+<dt>P5</dt><dd>6d: vacuous here; report twisted-F₂₀ and C₅-coset energy in the 6d block as a noise check only.</dd>
+<dt>P6</dt><dd>document the Morwani-vs-ReLU contrast; not a test.</dd>
+</dl>
+<p>Post-Wu, P1–P4 are replication-grade: they validate the pipeline and the framing, and they are honest controls, but none is novel. The open decisions are D1 object (pre-activations vs. post-ReLU), D2 bar (0.90 vs. 0.95), D3 include P3/P4, D4 MLPs only vs. also transformers, D5 memorizer controls, D6 the dev/confirm split, D7 whether Wu changes the paper fork, D8 obtaining the McCracken dihedral paper, D9 adopting "which orbit" as the content of option B.</p>
+
+<h3>7.3 The paper fork</h3>
+<p>Two papers were on the table. The <b>composition / dissolution</b> paper is now "extend Wu from trivial to non-trivial characters; show the dispute dissolves on M-groups; sweep the Aff(ℤₙ) family" — a real increment on a spotlight paper, with a possible partial pre-emption in the unread dihedral workshop paper. The <b>action-side</b> paper (train on a·x + b, i.e. the permutation representation of Aff(ℤₙ) with its Ramanujan-sum characters and divisor blocks) sits in territory with no prior work at all. The S₅ probe was chosen to decide between them; the literature result tilts toward the action side without settling it.</p>
+
+
+<div class="prose">
+<h2 id="s8"><span class="n">8</span>The affine family: results</h2>
+<p>Everything below was run against <code>results/preregistration_affine_v1.md</code>, frozen on 2026-09-15 before any affine model was trained; the amendments and dev-phase observations recorded there are summarized where they matter. Thirty-five models were trained on this laptop (Chughtai's architecture, two recipes, five seeds per cell); thirty-one reached test accuracy ≥ 0.99 and enter the analysis. The four that did not are the three Aff(ℤ₁₃) runs — that group never generalizes at width 128 under the Adam recipe, even at 100k epochs — and one Aff(ℤ₁₁) seed at 25k epochs, which the same seed at 100k epochs did solve: Aff(ℤ₁₁) sits at a grokking threshold, Aff(ℤ₁₃) beyond it. The composites grok by epoch 300–800.</p>
+
+<h3>8.1 Two things the mathematics decided before the network did</h3>
+<p><b>Factoring.</b> By the Chinese remainder theorem Aff(ℤ₁₅) ≅ S₃ × F₂₀ and Aff(ℤ₂₁) ≅ S₃ × Aff(F₇). The 8- and 12-dimensional "top" irreps of those groups are tensor products of the factors' irreps, and every one of the fifteen models on them leaves that block empty: the network solves the two factors separately and never builds the tensor. So the only composite modulus without an escape hatch is 16, and the pre-registered slack comparison rests on n = 11 versus n = 16.</p>
+<p><b>Siblings.</b> Each block ρ_d has character-twisted siblings ρ_d ⊗ χ that are equally good for the task — the S₅ standard/standard′ choice, made at random: in about 40% of cells the network used a sibling of the block the pre-registration named (five of fifteen models on Aff(ℤ₁₅), three of five on Aff(ℤ₁₆)'s d = 8 block, two of five on Aff(ℤ₂₁)'s d = 7). The frozen verdict for those is 'empty'; the descriptive layer scores siblings with the plain-with-character family (M_x, λ).</p>
+
+<h3>8.2 The pre-registered verdicts</h3>
+</div>
+<div class="tblwrap wide"><table>
+<thead><tr><th>n</th><th>block (dim)</th><th class="num">plain</th><th class="num">twist</th><th class="num">neither</th><th class="num">both</th><th class="num">empty</th><th>P-A verdict (confirm seeds)</th></tr></thead>
+<tbody>
+<tr><td>11</td><td>11 (10)</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td>PASS — plain</td></tr>
+<tr><td>15</td><td>5 (4)</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td>PASS — plain</td></tr>
+<tr><td>15</td><td>15 (8)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td>no test — top block unused (CRT)</td></tr>
+<tr><td>16</td><td>16 (8)</td><td class="num">2</td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td>PASS — plain</td></tr>
+<tr><td>16</td><td>8 (4)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td>no test — sibling used</td></tr>
+<tr><td>21</td><td>7 (6)</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td>unclear</td></tr>
+<tr><td>21</td><td>21 (12)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td>no test — top block unused (CRT)</td></tr>
+</tbody></table></div>
+<figure class="wide">
+<svg class="chart" viewBox="0 0 560 360" role="img" aria-labelledby="fig3t fig3d"><title id="fig3t">Fraction of block energy aligned with plain vs twisted families, per model and block</title><desc id="fig3d">Trained models cluster at the plain axis; random-init controls sit at the origin; one twisted point and a few origin points from trained models.</desc>
+<line x1="56" x2="540" y1="310.0" y2="310.0" class="grid"/><text x="48" y="314.0" class="tick" text-anchor="end">0.00</text>
+<text x="56.0" y="326" class="tick" text-anchor="middle">0.00</text>
+<line x1="56" x2="540" y1="237.5" y2="237.5" class="grid"/><text x="48" y="241.5" class="tick" text-anchor="end">0.25</text>
+<text x="177.0" y="326" class="tick" text-anchor="middle">0.25</text>
+<line x1="56" x2="540" y1="165.0" y2="165.0" class="grid"/><text x="48" y="169.0" class="tick" text-anchor="end">0.50</text>
+<text x="298.0" y="326" class="tick" text-anchor="middle">0.50</text>
+<line x1="56" x2="540" y1="92.5" y2="92.5" class="grid"/><text x="48" y="96.5" class="tick" text-anchor="end">0.75</text>
+<text x="419.0" y="326" class="tick" text-anchor="middle">0.75</text>
+<line x1="56" x2="540" y1="20.0" y2="20.0" class="grid"/><text x="48" y="24.0" class="tick" text-anchor="end">1.00</text>
+<text x="540.0" y="326" class="tick" text-anchor="middle">1.00</text>
+<line x1="56" x2="540" y1="310" y2="310" class="axis"/><line x1="56" x2="56" y1="20" y2="310" class="axis"/>
+<text x="298" y="352" class="axlabel" text-anchor="middle">F_plain — fraction of block energy in plain-coset-aligned columns</text>
+<text transform="translate(14,165) rotate(-90)" class="axlabel" text-anchor="middle">F_twist — single-frequency-aligned</text>
+<circle cx="56.3" cy="309.7" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="57.3" cy="310.2" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="54.9" cy="310.7" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="58.6" cy="311.9" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="54.6" cy="307.5" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="54.8" cy="310.1" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="51.3" cy="309.6" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="53.5" cy="308.5" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="54.9" cy="309.4" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="56.8" cy="312.1" r="4" class="dot ctrl"><title>random init · n=11 block 11</title></circle>
+<circle cx="55.7" cy="312.7" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="54.7" cy="310.7" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="57.8" cy="310.2" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="54.5" cy="308.2" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="55.1" cy="310.4" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="54.0" cy="309.6" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="55.7" cy="311.1" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="56.4" cy="310.7" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="54.7" cy="309.7" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="57.6" cy="313.0" r="4" class="dot ctrl"><title>random init · n=13 block 13</title></circle>
+<circle cx="536.5" cy="313.8" r="5" class="dot" tabindex="0"><title>aff11_wu100k_m128_seed1 · block 11 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="543.4" cy="312.0" r="5" class="dot" tabindex="0"><title>aff11_wu100k_m128_seed2 · block 11 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="538.1" cy="309.2" r="5" class="dot" tabindex="0"><title>aff11_wu100k_m128_seed3 · block 11 · F_plain 0.99 · F_twist 0.00 · plain</title></circle>
+<circle cx="543.6" cy="314.9" r="5" class="dot" tabindex="0"><title>aff11_wu100k_m128_seed4 · block 11 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="541.8" cy="313.3" r="5" class="dot" tabindex="0"><title>aff11_wu100k_m128_seed5 · block 11 · F_plain 0.99 · F_twist 0.00 · plain</title></circle>
+<circle cx="538.2" cy="307.0" r="5" class="dot" tabindex="0"><title>aff11_wu_m128_seed2 · block 11 · F_plain 0.99 · F_twist 0.00 · plain</title></circle>
+<circle cx="539.5" cy="311.5" r="5" class="dot" tabindex="0"><title>aff15_chughtai_m128_seed2 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="536.8" cy="311.0" r="5" class="dot" tabindex="0"><title>aff15_chughtai_m128_seed3 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="537.4" cy="310.7" r="5" class="dot" tabindex="0"><title>aff15_chughtai_m128_seed4 · block 5 · F_plain 0.99 · F_twist 0.00 · plain</title></circle>
+<circle cx="537.0" cy="308.3" r="5" class="dot" tabindex="0"><title>aff15_chughtai_m128_seed5 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="538.9" cy="307.1" r="5" class="dot" tabindex="0"><title>aff15_wu_m128_seed1 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="544.3" cy="308.8" r="5" class="dot" tabindex="0"><title>aff15_wu_m128_seed2 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="540.8" cy="309.4" r="5" class="dot" tabindex="0"><title>aff15_wu_m128_seed3 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="544.0" cy="313.3" r="5" class="dot" tabindex="0"><title>aff15_wu_m128_seed4 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="541.6" cy="304.5" r="5" class="dot" tabindex="0"><title>aff15_wu_m512_seed1 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="540.1" cy="311.7" r="5" class="dot" tabindex="0"><title>aff15_wu_m512_seed4 · block 5 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="542.5" cy="308.5" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed1 · block 16 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="203.2" cy="16.7" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed1 · block 8 · F_plain 0.29 · F_twist 1.00 · twist</title></circle>
+<circle cx="54.3" cy="312.3" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed2 · block 16 · F_plain 0.00 · F_twist 0.00 · neither</title></circle>
+<circle cx="56.1" cy="315.0" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed2 · block 8 · F_plain 0.00 · F_twist 0.00 · neither</title></circle>
+<circle cx="414.6" cy="308.4" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed3 · block 16 · F_plain 0.74 · F_twist 0.00 · plain</title></circle>
+<circle cx="55.1" cy="307.3" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed4 · block 16 · F_plain 0.00 · F_twist 0.00 · neither</title></circle>
+<circle cx="536.8" cy="311.6" r="5" class="dot" tabindex="0"><title>aff16_wu_m128_seed5 · block 16 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="541.5" cy="313.2" r="5" class="dot" tabindex="0"><title>aff21_wu_m128_seed1 · block 7 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="538.1" cy="314.2" r="5" class="dot" tabindex="0"><title>aff21_wu_m128_seed2 · block 7 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<circle cx="538.7" cy="23.9" r="5" class="dot" tabindex="0"><title>aff21_wu_m128_seed3 · block 7 · F_plain 1.00 · F_twist 1.00 · both</title></circle>
+<circle cx="538.9" cy="308.2" r="5" class="dot" tabindex="0"><title>aff21_wu_m128_seed5 · block 7 · F_plain 1.00 · F_twist 0.00 · plain</title></circle>
+<text x="525" y="293" class="annot" text-anchor="end">22 plain</text>
+<text x="75" y="29" class="annot">1 twist</text>
+<text x="75" y="275" class="annot">3 neither (trained) + 20 random-init controls</text>
+<text x="404" y="40" class="annot" text-anchor="middle">1 both</text>
+</svg>
+<figcaption><b>Figure 3.</b> Every (model, block) pair with block-dominant columns, placed by the fraction of its energy aligned with the plain family (horizontal) and with the single-frequency family (vertical). Trained models pile up on the plain axis; the random-initialization controls sit at the origin with them the trained 'neither' cases. Hover a point for its identity. Dev seeds included.</figcaption></figure>
+<div class="prose">
+<p><b>P-A — plain wins.</b> In every block with a decision, the majority of confirm seeds are plain-coset organized, and the single-frequency basis — exact and slack-free in each of these blocks — never carries a majority anywhere. Where it appears it is a coincidence (a plain neuron whose profile in the translation coordinate is one cosine: Aff(ℤ₂₁) seed 3, hence 'both') or in a sibling block.</p>
+<p><b>P-B — PASS on the frozen statistic, with the caveats it earned.</b> Median F_plain for the top block: 0.995 (n = 11) against 0.740 (n = 16), a gap of 0.255 against the pre-registered 0.2. But n = 13 was dropped, the other composites' top blocks are empty by factoring, and the n = 16 figure is the median of {1.00, 0.74, 0.00}: slack shows up as seed-dependent <i>alternative organizations</i> on Aff(ℤ₁₆), not as a graded loss of plain-ness.</p>
+<p><b>P-C (recipe) and P-D (width)</b>: frozen verdicts agree in 3 of 5 seeds for each — inconclusive by the pre-registered thresholds. Sibling-agnostically (component-level, plain ∪ plain-with-character against twisted) they agree in 4/5 and 5/5. Neither the optimizer regime nor a four-fold wider hidden layer changes the organization; both only change which sibling irrep is chosen. Untrained networks score zero on both families in all fifty controls.</p>
+
+<h3>8.3 What the residue contains</h3>
+<p>Two descriptive tools were added after dev, before confirm analysis, and both are recorded in the pre-registration: Wu et al.'s rank test — is the neuron's coefficient matrix in the block rank one, i.e. a projected ρ-set of <i>some</i> subgroup — and a uniform Stander-style sweep over every subgroup class of index ≤ 16 with every linear character, against Monte-Carlo nulls (informative for blocks of dimension ≥ 6; vacuous for dimension 4, and read accordingly).</p>
+<ul>
+<li><b>Rank one is nearly universal.</b> Every block-dominant neuron in every model is rank one (r1 ≥ 0.99 for 100% of energy) except the top block of one Aff(ℤ₁₆) seed, where 74% of the energy is rank two. Wu's form holds on M-groups essentially without exception.</li>
+<li><b>Aff(ℤ₁₁): one answer.</b> 99–100% of top-block energy in all six models is constant on point-stabilizer cosets with the trivial character (null p99 0.29). The prime case is Stander's S₄ circuit transplanted.</li>
+<li><b>Aff(ℤ₂₁), d = 7: the S₅ 'A4' phenomenon.</b> Energy splits between the mod-7 point stabilizer and its index-2 subgroup — neurons mixing the plain and the character-twisted realization, exactly what the impure S₄-type columns were on S₅.</li>
+<li><b>Aff(ℤ₁₆): the menu.</b> Seed 1: point stabilizers (98%). Seed 5: a complement of the translations that is <i>not conjugate</i> to any point stabilizer, with a character (54%) — Aff(ℤ₁₆) has such complements because ℤ₁₆ has 2-torsion. Seed 3: a mixture of classes. Seed 4: rank one, but the vector is supported on a Klein-four-group orbit of frequencies — a stabilizer strictly between the translation subgroup and the whole group, matching no linear-character family. Seed 2: rank two — two frequency assignments on the two cosets of T ⋊ V₄, induced from a four-dimensional irrep of an index-2 subgroup. The sibling d = 8 block (seeds 3–5) is exactly constant (α = 1.00) on cosets of an order-16 subgroup that contains no point stabilizer at all; every stabilizer family scores 0 there.</li>
+<li><b>Sides.</b> The x-input reads right cosets (a function of x⁻¹(0)), the y-input left cosets (a function of y(0)), in every grokked model, with the two halves carrying equal energy to within 0.5% — the same translation of Stander's construction that held on S₅.</li>
+</ul>
+
+<h3>8.4 Reading</h3>
+<p>On the affine family the network almost always builds rank-one projected ρ-sets whose stabilizer is a point stabilizer, which is Stander's coset organization written in Wu's form, even though an exact Fourier basis with zero slack is available in every block. From seed to seed what varies is which exact realization is used: which sibling irrep, which subgroup class, and, on the one composite group without factoring, occasionally a structure that is not a coset structure at all. The pre-registered dichotomy was answered in favour of plain cosets. The structure worth writing about is in the cases the dichotomy did not name. The dissolution thesis survives in a weaker form than the one we started with: every organization observed is an exact induced-module basis of the same irrep, but induction from a linear character is not the whole menu, and monomiality does not say which item the network will use.</p>
+</div>
+
+<hr>
+<h2 id="sA"><span class="n">A</span>Appendix: files, reproduction, glossary</h2>
+<h3>A.1 File map</h3>
+<dl class="kv">
+<dt>lit_review.md</dt><dd>annotated literature report (verdict, Wu et al. in detail, bibliography, gaps)</dd>
+<dt>s5_probe/s5probe/</dt><dd><code>group.py</code> S₅ in Chughtai's indexing, subgroups, cosets · <code>chars.py</code> character table, isotypic/induced/twisted projectors · <code>subgroups.py</code> all 156 subgroups · <code>load.py</code> model loader and forward pass · <code>metrics.py</code> per-irrep energies · <code>coset_stats.py</code> alignment score and nulls</dd>
+<dt>s5_probe/tests/selftest.py</dt><dd>the 50 checks of §5.3</dd>
+<dt>s5_probe/data/</dt><dd>pinned element ordering, multiplication table, subgroup classes; local copies of the Stander and Wu PDFs with extracted text</dd>
+<dt>s5_probe/results/</dt><dd><code>coset_irrep_dictionary.md</code>, <code>null_coset_scores.md</code>, <code>preregistration_draft.md</code></dd>
+<dt>external/</dt><dd>cloned <code>rep-theory-mech-interp</code> (Chughtai; all models) and <code>sn-grok</code> (Stander; code only)</dd>
+</dl>
+<h3>A.2 Reproduce</h3>
+<pre><code>cd s5_probe
+.venv/bin/python tests/selftest.py          # ~20 s; ends with ALL PASS
+.venv/bin/python -c "
+import sys; sys.path.insert(0,'.')
+from s5probe import *
+G=S5(); C=Chars(G); R=load_run('S5_MLP_seed2')
+print(percent_hidden(hidden_acts(R['sd']), G, C))"</code></pre>
+<h3>A.3 Conventions and glossary</h3>
+<dl class="kv">
+<dt>x·y</dt><dd>apply x, then y (SymPy's convention; the models' target). Chughtai's x is Stander's right input.</dd>
+<dt>g·H, H·g</dt><dd>"left" and "right" cosets with respect to that operation; every statistic is computed for both sides.</dd>
+<dt>V<sub>ρ</sub>, P<sub>ρ</sub></dt><dd>isotypic block of irrep ρ (dimension d<sub>ρ</sub>²) and the projector onto it</dd>
+<dt>Q<sub>H</sub>, Q<sub>H</sub><sup>λ</sup></dt><dd>projector onto H-coset-constant functions; onto λ-twisted ones (f(gh) = λ̄(h) f(g))</dd>
+<dt>Ind<sub>H</sub>(λ)</dt><dd>representation induced from the character λ of H; its irreducible constituents are the irreps that twisted-coset functions can carry</dd>
+<dt>slack</dt><dd>number of extra 1-dim constituents in the cheapest Ind<sub>H</sub>(λ) containing ρ; 0 ⇔ ρ monomial</dd>
+<dt>α<sub>H</sub>, C<sub>H</sub></dt><dd>coset-alignment score and Stander's coset-concentration; α = 1 − C</dd>
+<dt>projected ρ-set</dt><dd>Wu et al.: a neuron g ↦ aᵀρ(g)b with b having a non-trivial stabilizer</dd>
+<dt>grokking</dt><dd>delayed generalization: memorize first, generalize much later</dd>
+</dl>
+</div>
+</div>
