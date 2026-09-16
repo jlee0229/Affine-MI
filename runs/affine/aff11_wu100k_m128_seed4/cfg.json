@@ -1,0 +1,18 @@
+{
+ "group": "aff11",
+ "recipe": "wu",
+ "seed": 4,
+ "embed": 256,
+ "hidden": 128,
+ "epochs": 100000,
+ "frac": 0.4,
+ "n": 110,
+ "final": {
+  "epoch": 100000,
+  "train_loss": 0.0331568717956543,
+  "test_loss": 0.08087046444416046,
+  "train_acc": 1.0,
+  "test_acc": 1.0,
+  "t": 3551.245444059372
+ }
+}

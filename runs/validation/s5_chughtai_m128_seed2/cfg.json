@@ -1,0 +1,18 @@
+{
+ "group": "s5",
+ "recipe": "chughtai",
+ "seed": 2,
+ "embed": 256,
+ "hidden": 128,
+ "epochs": 250000,
+ "frac": 0.4,
+ "n": 120,
+ "final": {
+  "epoch": 250000,
+  "train_loss": 1.4391406466529588e-06,
+  "test_loss": 2.726754473769688e-06,
+  "train_acc": 1.0,
+  "test_acc": 1.0,
+  "t": 3094.85599899292
+ }
+}

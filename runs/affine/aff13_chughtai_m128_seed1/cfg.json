@@ -1,0 +1,18 @@
+{
+ "group": "aff13",
+ "recipe": "chughtai",
+ "seed": 1,
+ "embed": 256,
+ "hidden": 128,
+ "epochs": 250000,
+ "frac": 0.4,
+ "n": 156,
+ "final": {
+  "epoch": 250000,
+  "train_loss": 8.922551387513522e-06,
+  "test_loss": 21.384929656982422,
+  "train_acc": 1.0,
+  "test_acc": 0.010888919234275818,
+  "t": 3047.579787015915
+ }
+}
