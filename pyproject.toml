@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cosetprobe"
+version = "0.1.0"
+description = "Coset vs. irrep organization of neurons in networks trained on group composition (S5, dihedral, Aff(Z_n))"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "torch>=2.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools]
+packages = ["cosetprobe"]
