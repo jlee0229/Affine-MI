@@ -1,6 +1,6 @@
 # Pre-registration — Aff(ℤₙ) family, plain vs. twisted (FROZEN 2026-09-15, before any affine model is trained)
 
-Decisions (user, 2026-09-15): n ∈ {11, 13, 15, 16, 21}; recipe R-Wu primary, R-Chughtai as regime control on n = 15; 5 seeds per cell;
+Decisions: n ∈ {11, 13, 15, 16, 21}; recipe R-Wu primary, R-Chughtai as regime control on n = 15; 5 seeds per cell;
 Step 0 dihedral pilot runs first; this document is frozen as written. Nulls (Monte Carlo, no model data) are attached as
 `results/affine_nulls.md` before training starts; they may not be changed afterwards.
 

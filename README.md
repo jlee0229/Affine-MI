@@ -5,8 +5,8 @@ finite-group multiplication are organized by cosets of subgroups (Stander et al.
 representations (Chughtai et al., arXiv:2302.03025; Wu et al., arXiv:2410.07476), on S5, D59/D61 and the affine groups
 Aff(Z_n) for n = 11, 13, 15, 16, 21. The S5 and dihedral analyses run on Chughtai et al.'s released models; the affine
 models were trained here. Pre-registrations were frozen before the corresponding models were analysed and are kept
-unedited in `preregistration/`. The findings are written up in `writeup/cosets_irreps_s5.html` and summarized in
-`results/probe/REPORT.md` (S5, dihedral) and `results/affine/REPORT_affine.md` (affine family).
+unedited in `preregistration/`. The findings are written up in `writeup/cosets_irreps_s5.html` and analyzed in
+`results/probe/REPORT.md` (S5, dihedral) and `results/affine/REPORT_affine.md` (affine family). In summary, the networks organize by plain point-stabilizer cosets in rank-one form on every group tested, never by the zero-slack single-frequency basis, and factor through CRT whenever n is composite.
 
 ## Setup
 
@@ -45,3 +45,15 @@ in `cosetprobe/affine.py`; the S5 indexing follows Chughtai's code (sympy 1.11.1
 
 `scripts/train.py --group aff15 --recipe wu --seed 3 --out runs/affine/aff15_wu_m128_seed3` retrains one model.
 Grokking of the prime groups at width 128 is fragile (Aff(Z_11)) or absent (Aff(Z_13)); details in the report.
+
+## Limitations
+
+S5 is the only non-M-group, the dihedral pilot could only check rank one, two of the five affine moduli (15, 21) factor into direct products whose tensor block the networks never build, and n = 13 never generalizes at width 128. The slack comparison is therefore n = 11 against n = 16, and the seed-to-seed variety comes from five models of one group. All models are one-hidden-layer ReLU MLPs at width 128 under two optimizers; irrep selection is known to depend on the regime, so the preference for plain cosets is a claim about this one. The pre-registered families (point stabilizers with the trivial character; single frequencies on the translations) are narrower than what the models use, so several verdicts are 'empty' or 'neither' and were explained afterwards by a subgroup sweep whose nulls are weak for small blocks. P4 was withdrawn as tautological, the memorizer control in P2 was a design error, and P-C and P-D are inconclusive. The statistics describe organization, not sufficiency: there are no ablations or verified bounds. Five seeds per cell; Aff(Z_11) at width 128 groks or not depending on non-deterministic CPU arithmetic; the p^2 account of the primes is post hoc.
+
+This repository was pushed as a single commit after the work was done, so git history does not show the pre-registrations being frozen before the models were trained; the freeze dates and amendment records inside each file are the only record of ordering, and a reader should weight them accordingly.
+
+## Future directions
+
+Why plain cosets win: the activation function is the first candidate (quadratic activations should flip the verdict on the same groups), then the max-margin basis for Aff(Z_n) and which structure forms first in training. Prime powers 25, 27 and 32 give non-factoring composites with blocks of dimension at least 6; primes 17 and 19 at widths above p^2 would test the width result; SL(2,3) separates solvability from monomiality. The action task (g, x) -> g(x) targets the permutation representation directly and has no published work. A regime that uses the 6-dimensional irrep of S5 would show which orbit it picks; Chughtai's transformers and Stander's weights would test architecture dependence.
+
+
