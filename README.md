@@ -6,7 +6,9 @@ representations (Chughtai et al., arXiv:2302.03025; Wu et al., arXiv:2410.07476)
 Aff(Z_n) for n = 11, 13, 15, 16, 21. The S5 and dihedral analyses run on Chughtai et al.'s released models; the affine
 models were trained here. Pre-registrations were frozen before the corresponding models were analysed and are kept
 unedited in `preregistration/`. The findings are written up in `writeup/cosets_irreps_s5.html` and summarized in
-`results/probe/REPORT.md` (S5, dihedral) and `results/affine/REPORT_affine.md` (affine family).
+`results/probe/REPORT.md` (S5, dihedral) and `results/affine/REPORT_affine.md` (affine family), further summarized below.
+
+On the affine family the network almost always builds rank-one projected ρ-sets (Wu's form) whose stabilizer is a point stabilizer, i.e. the plain coset organization Stander described on S5, even though an exact single-frequency (induced) basis with zero slack is available in every block. The single-frequency basis appears only when a plain neuron's b-profile happens to be one cosine, or in an occasional sibling block. What varies by seed is which exact realization the network uses: which sibling irrep, which subgroup class (point stabilizer, character-twisted stabilizer, non-conjugate complement), and, on the one composite group without CRT factoring, sometimes a structure that is not a coset structure at all (rank 2, or a vector supported on a K′-orbit). 
 
 ## Setup
 
